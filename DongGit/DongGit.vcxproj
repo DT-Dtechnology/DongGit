@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log" />
+    <Text Include="开发备注.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -37,6 +37,9 @@
     <Filter Include="Hash">
       <UniqueIdentifier>{7748f107-524e-4e44-bd20-ba36a93b0fe1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ref">
+      <UniqueIdentifier>{bc27a2ca-1dc4-4398-b356-f215f1239f98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -156,6 +159,9 @@
   <ItemGroup>
     <Text Include="Log.log">
       <Filter>log</Filter>
+    </Text>
+    <Text Include="开发备注.txt">
+      <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
 </Project>
