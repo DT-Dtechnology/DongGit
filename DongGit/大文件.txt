@@ -1,0 +1,4510 @@
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
+首页
+博客
+学院
+下载
+GitChat
+TinyMind
+论坛
+问答
+商城
+VIP
+活动
+招聘
+ITeye
+CSTO
+
+搜博主文章
+写博客
+发Chat
+
+「智捷课堂」关东升的博客
+一个20年的老程序员、老师、作家。 著有《iOS开发指南》《Swift开发指南》《从零开始学Swift》等书籍。...
+
+RSS订阅
+原
+Visual Studio下SQLite数据库开发环境设置
+2014年10月22日 18:43:23
+阅读数：4732
+由于我们介绍的内容都是基于微软的Visual Studio下开发的Win32平台，所以下边我们介绍Visual Studio下SQLite数据库开发环境设置。具体而言我们有两种方式可以在Visual Studio中SQLite数据库：使用SQLite源代码文件和使用Cocos2d-x提供的库文件。
+1、使用SQLite源代码文件
+SQLite是C编写的开源的数据库，我们可以在http://www.sqlite.org/download.html网址下载最新的SQLite源代码，如我下载的sqlite-amalgamation-3080401.zip文件，解压这个文件后的内容包括：shell.c、sqlite3.c、sqlite3.h和sqlite3ext.h。我们一般只需要sqlite3.c和sqlite3.h两个文件就可以了。
+ 我们需要把这两个文件添加到工程中，具体过程是拷贝它们到工程中Classes目录，打开解决方案，如图所示，右键点击HelloWorld工程下Classes目录，在右键菜单中选择，“添加”→ “现有项”。然后，在弹出对话框中选择sqlite3.c和sqlite3.h文件添加到工程中。
+
+
+添加sqlite3.c和sqlite3.h文件到工程
+
+
+2、使用Cocos2d-x提供的库文件
+由于Cocos2d-x引擎其实已经带有为Win32下访问SQLite所需要的库，Cocos2d-x 3.x中SQLite库文件所在位置是<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中，头文件在<工程目录>\cocos2d\external\sqlite3\include目录中。我们可以直接使用。
+这种方式的优点是，可以直接使用Cocos2d-x引擎为开发者编译好的库文件，版本兼容性好。缺点是，配置开发环境比较麻烦，而且移植到其它平台时Win32库文件是不能使用的，我们需要重新配置环境。下面我们就详细介绍一下这种方式。
+首先，我们需要配置头文件搜索路径，选中HelloWorld工程，打开菜单“项目”→ “属性”弹出工程属性对话框，如下图所示，选择“配置属性”→“C++” →“常规”，在右边的“附加包含目录”中添加$(EngineRoot)external\sqlite3\include，注意配置目之间需要用分号分隔开。
+
+
+配置头文件搜索路径
+接下来我们还需要将SQLite3的库文件配置到链接环境中，选择“配置属性”→“链接器” →“输入”， 如下图所示，在右边的“附加依赖项”中添加$ $(EngineRoot)external\sqlite3\libraries\win32\sqlite3.lib，注意配置目之间需要用分号分隔开。
+
+
+配置链接环境
+
+
+接下来我们还需要将SQLite3的库文件拷贝到运行环境中，最简单的方式是手工将<工程目录>\cocos2d\external\sqlite3\libraries\win32目录中的sqlite3.dll和sqlite3.lib文件拷贝到可执行文件所在目录下，如：<工程目录>\proj.win32\Debug.win32目录。然后，编译工程就可以了，但是如果我们清除了Debug.win32目录，这两个文件就会丢失。为了防止这种情况，我们可以在工程编译的时候，设置编译事件，我们可以在这个事件中定义拷贝过程。打开工程属性对话框，如下图所示，选择“配置属性”→“生成事件” →“预链接事件”，修改右边窗口的“命令行”，内容如下：
+if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(EngineRoot)external\sqlite3\libraries\win32\*.*" "$(OutDir)"
+其中后面一行是我们追加的，原来工程模板只设置了拷贝websockets。这个会在我们工程编译的时候将$(EngineRoot)external\sqlite3\libraries\win32\目录下的所有文件拷贝到输出目录，其中$(EngineRoot)宏代表<工程目录>\cocos2d\目录，$(OutDir)宏是可执行文件的生成目录，这里代表<工程目录>\proj.win32\Debug.win32目录。
+
+
+ 配置编译事件
+我们试着编译一下工程，或者重新生成解决方案，看看在可执行文件的生成目录下是否包含库文件sqlite3.dll和sqlite3.lib文件。
+
+
+更多内容请关注最新Cocos图书《Cocos2d-x实战 C++卷》本书交流讨论网站：http://www.cocoagame.net
+更多精彩视频课程请关注智捷课堂Cocos课程：http://v.51work6.com
+欢迎加入Cocos2d-x技术讨论群：257760386
+
+《Cocos2d-x实战 C++卷》现已上线，各大商店均已开售：
+京东：http://item.jd.com/11584534.html
+
+亚马逊：http://www.amazon.cn/Cocos2d-x%E5%AE%9E%E6%88%98-C-%E5%8D%B7-%E5%85%B3%E4%B8%9C%E5%8D%87/dp/B00PTYWTLU
+
+当当：http://product.dangdang.com/23606265.html
+
+互动出版网：http://product.china-pub.com/3770734
+
+
+《Cocos2d-x实战 C++卷》源码及样章下载地址：
+
+源码下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1155&extra=page%3D1 
+
+样章下载地址：http://51work6.com/forum.php?mod=viewthread&tid=1157&extra=page%3D1
+
+欢迎关注智捷iOS课堂微信公共平台
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tonny_guan/article/details/40380421
+文章标签： cocos2d-x 游戏 开发人员 cocos2d
+个人分类： 实战 网络游戏 iphone 游戏开发 游戏
+所属专栏： Cocos2d-x实战
+相关热词： visual  visual复制  visual色彩  visual到期  visual编译
+上一篇Cocos2d-x使用UserDefault数据持久化实例：保存背景音乐和音效设置
+下一篇Cocos2d-x中创建SQLite数据库
+
+ 
+
+想对作者说点什么
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+VS2013连接SQLite数据库时，在数据源列表中不显示Sqlite驱动程序
+
+ zhaijingkui zhaijingkui
+
+2017-10-13 12:21:03
+
+阅读数：316
+
+visual studio 2013数据源类型列表中没有SQLite的解决方法
+本文记录了vs2013连接sqlite数据库的解决方法
+
+ iDevelop iDevelop
+
+2015-03-19 10:34:09
+
+阅读数：3042
+
+北京新政策:45岁以上中老年人可以申请极简种牙—每天限10名
+海德堡口腔 · 顶新
+在VS2008中如何使用SQLite（C#版）
+友情提示：本文所述代码下载地址 http://download.csdn.net/source/2299805 SQLite 是一个嵌入式的关系数据库系统，运用十分广泛。在一些数据处理量不大的应用程序...
+
+ icycoffee icycoffee
+
+2010-03-06 09:49:00
+
+阅读数：9872
+
+Visual Studio 2017 中使用 SQLite3的方法
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 首先百度搜索“sqlite3下载“，搜索结果如下图： 下载后，可以看到下载后的软件文件夹中包含...
+
+ u010244368 u010244368
+
+2017-05-26 14:27:48
+
+阅读数：3560
+
+Visual Studio 2015中配置SQlite3
+工具： 1） Visual Studio Professional 2015; 2）SQLite3相关：适用于.Net4.6的System.Data.SQLite，一定要选择对应的版本。 (下载...
+
+ ligelazi ligelazi
+
+2016-01-31 17:48:04
+
+阅读数：2107
+
+Visual Studio 中使用 SQLite
+工程中要用到的三个文件sqlite3.lib，sqlite3.dll，sqlite3.h 三个参考链接： http://www.cnblogs.com/likebeta/archive/2012/...
+
+ fevershen fevershen
+
+2016-11-07 15:30:59
+
+阅读数：1100
+
+一建建造师挂靠就上58挂靠网，专业建造师信息平台
+热门推荐 · 顶新
+VS2013下使用sqlite3
+下载sqlite3的源码包和动态链接库（ sqlite-dll-win32-x86-3090200.zip）下载地址 在cmd下运行下面代码 ”D:\Tools\Microsoft Visual S...
+
+ songzige songzige
+
+2015-12-19 11:33:36
+
+阅读数：4086
+
+SQLite安装及在Visual studio 2010（VS2010）中的使用
+本人菜鸟，本文仅自己学习过程中总结，望高手指点 1.SQLite安装 SQlite官网：http://www.sqlite.org/download.html 找到以下截图中内容 第一...
+
+ Micro_Ryan Micro_Ryan
+
+2015-07-30 15:45:34
+
+阅读数：6524
+
+sqlite3在Visual studio 2012下的编译
+2014年04月08日 10.98MB 下载
+
+ 
+VS中引用第三方库的方法（配置sqlite数据库）
+我们在编写程序时，，不可避免的会使用第三方的库文件，很少使用源文件（.cpp），大部分是使用对类进行声明的头文件和封装了类的链接库（静态lib或动态dll），比如我们写程序用的iostream这个库，...
+
+ u014028070 u014028070
+
+2014-12-30 23:36:32
+
+阅读数：2263
+
+Visual Studio 2010环境下Sqlite3加密版（由wxSqlite制作）使用方法
+SQLite 3 开源版不带加密功能，对于一个保存在本地的数据库来说没有加密功能让人难以接受，只要用记事本打开数据库就可以看到数据库内保存的数据，对安全多多少少有一点影响。有一个办法是把内容加密后保存...
+
+ embededvc embededvc
+
+2013-11-20 00:53:00
+
+阅读数：2287
+
+vs 数据连接 选择mysql 数据源
+在使用vs连接mysql数据源时，找不到mysql database 数据库 解决方案： https://dev.mysql.com/downloads/file/?id=465693 下载...
+
+ liuzhenyu_ liuzhenyu_
+
+2017-03-30 20:05:54
+
+阅读数：1485
+
+Visual Studio 2010（.NET 4.0）中使用SQLite.NET
+SQLite.NET可以使我们很方便的在.net环境下操作SQLite数据库，但是最新版本的SQLite（支持VS2010和.NET4.0）貌似还没有完成，我下载下来后发现缺少很多东西，特别是Linq...
+
+ binyao02123202 binyao02123202
+
+2012-09-08 16:14:29
+
+阅读数：4673
+
+
+Visual Studio 2017 配置MySQL数据源
+目的：在使用Visual Studio 的时候能够选择MySQL的数据源
+
+ u013099001 u013099001
+
+2018-05-10 17:16:06
+
+阅读数：841
+
+Visual Studio C#+SQL Server数据库开发与实例
+2016年05月19日 41.97MB 下载
+
+ 
+Visual Studio 2008更改默认环境设置的方法
+一同学说第一次启动VS2008的时候选错了默认环境设置，选成C++，造成C#项目打开有问题。找了一下，发现改起来还挺方便的。步骤如下，贴图更直观： 1、菜单工具->导入和导出设置…，打开导入和导...
+
+ ddkxddkx ddkxddkx
+
+2011-10-08 07:50:48
+
+阅读数：3882
+
+根据开发语言或习惯 Visual Studio 设置默认环境
+点“工具” - >“导入和导出设置 - >导入选定的环境设置
+
+ 0210 0210
+
+2013-12-16 15:09:12
+
+阅读数：5643
+
+重新设置Microsoft Visual Studio默认环境
+我们装好vs后一般会让我们选择一个默认环境，如果选web开发设置，就不可以在一个解决方案中放置多个项目在一起，而且节目默认布局和选择c#有区别，左侧多了css快捷设置，管理样式等，感觉不是很方便，估计...
+
+ zhengyanming2005 zhengyanming2005
+
+2011-11-09 11:27:32
+
+阅读数：1298
+
+
+Visual C++ SQL Server数据库开发与实例
+2015年08月05日 53.74MB 下载
+
+ 
+第二章 Visual Studio开发环境的安装、配置
+*1. ? Visual Studio 其实是微软开发的一套工具集，它由各种各样得工具组成，这样就好像 Wps Office软件是由 WPS文字、WPS表格、WPS演示 等等组成是一个道理， 其中V...
+
+ qq_34536551 qq_34536551
+
+2017-06-05 12:51:17
+
+阅读数：270
+
+个人资料
+
+tony关东升
+
+关注
+原创
+389
+粉丝
+5286
+喜欢
+256
+评论
+335
+等级： 访问： 190万+ 积分： 2万+ 排名： 468
+勋章：
+ 
+智捷课堂
+智捷课堂-大量免费iOS、Cocos视频-http://zhijieketang.com
+最新文章
+《Java从小白到大牛》之第9章 字符串
+《Python从小白到大牛》第6章 数据类型
+《Java从小白到大牛》之第8章 数组
+《Python从小白到大牛》第5章 Python编码规范
+《Java从小白到大牛》之第7章 控制语句
+博主专栏
+
+iOS开发那些事
+
+阅读量：34935654 篇
+
+iOS经典应用剖析
+
+阅读量：2889910 篇
+
+Cocos2d-x实战
+
+阅读量：43564778 篇
+个人分类
+Java从小白到大牛 12篇
+从零开始学Swift 72篇
+iOS开发那些事 138篇
+Swift2 72篇
+ios 122篇
+Swift开发 72篇
+Swift 68篇
+iOS技术图书 78篇
+视频 21篇
+游戏 159篇
+游戏视频 8篇
+网络游戏 138篇
+android 49篇
+项目开发 9篇
+ipad 40篇
+实战 127篇
+采访 2篇
+游戏开发 171篇
+iphone 150篇
+iOS网络编程 26篇
+python从小白到大牛 8篇
+展开
+
+归档
+2018年7月 6篇
+2018年6月 5篇
+2018年5月 2篇
+2017年11月 2篇
+2017年10月 2篇
+2017年9月 4篇
+2016年3月 3篇
+2016年2月 4篇
+2016年1月 11篇
+2015年12月 12篇
+2015年11月 13篇
+2015年10月 10篇
+2015年9月 18篇
+2015年8月 15篇
+2015年5月 11篇
+2015年4月 9篇
+2015年3月 20篇
+2015年1月 1篇
+2014年12月 2篇
+2014年11月 20篇
+2014年10月 15篇
+2014年9月 15篇
+2014年8月 20篇
+2014年7月 13篇
+2014年6月 16篇
+2014年5月 16篇
+2014年3月 1篇
+2013年7月 4篇
+2013年6月 4篇
+2013年5月 10篇
+2013年4月 14篇
+2013年3月 11篇
+2013年2月 8篇
+2013年1月 8篇
+2012年11月 3篇
+2012年10月 8篇
+2012年9月 6篇
+2012年6月 5篇
+2012年5月 5篇
+2012年4月 1篇
+2012年3月 4篇
+2012年2月 1篇
+2011年11月 13篇
+2011年10月 7篇
+2011年9月 8篇
+2011年8月 2篇
+2011年7月 19篇
+2011年6月 6篇
+2010年1月 1篇
+2009年6月 1篇
+2009年3月 6篇
+2008年5月 2篇
+2008年4月 3篇
+展开
+
+热门文章
+iOS-获取当前时间的年、月、日、时、分、秒
+阅读量：55976
+
+使用Playground编写第一个Swift程序
+阅读量：33791
+
+Swift协议（Protocol）
+阅读量：25216
+
+Cocos2d-x使用瓦片地图
+阅读量：22369
+
+Objective-C调用Swift
+阅读量：22133
+
+最新评论
+究竟什么是POJO？
+coolrafael：很好的解决了我的疑惑
+
+Cocos2d-x使用瓦片地图
+a21690：点击屏幕如何判断点击的是哪个瓦片啊，45度地图
+
+究竟什么是POJO？
+u012654963：后来我在写书（《Spring2初学者实践教材》和《Spring2初学者实践教材》）的时候发现POJ...
+
+Swift静态方法
+qq_33806534：markmark
+
+第一个Cocos2d-JS游戏
+csdnluochao：good
+
+
+联系我们
+客服
+请扫描二维码联系客服
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于招聘广告服务 网站地图
+
+?2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+
+0
+
+
+写评论
+
+收藏
+
+微信
+
+微博
+
+QQ
+
