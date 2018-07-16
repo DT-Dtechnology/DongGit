@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Branch.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="AddCommand.h" />
     <ClInclude Include="BranchCommand.h" />
@@ -155,7 +156,10 @@
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
     <ClInclude Include="FetchCommand.h" />
+    <ClInclude Include="FileBag.h" />
+    <ClInclude Include="FileBagFactory.h" />
     <ClInclude Include="InitCommand.h" />
+    <ClInclude Include="LogControl.h" />
     <ClInclude Include="MergeCommand.h" />
     <ClInclude Include="PullCommand.h" />
     <ClInclude Include="PushCommand.h" />
@@ -167,14 +171,20 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Branch.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="DongGit.cpp" />
+    <ClCompile Include="FileBag.cpp" />
+    <ClCompile Include="FileBagFactory.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Log.log" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

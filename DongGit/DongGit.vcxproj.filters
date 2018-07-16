@@ -25,6 +25,12 @@
     <Filter Include="core">
       <UniqueIdentifier>{8da4af37-e293-49c5-b6f3-b735c737824c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="structure">
+      <UniqueIdentifier>{7d321b86-e53e-4e0f-92d2-b416e5ecf3c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{00cd66b6-eb3c-4f5c-93b4-6c331522fb85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -81,6 +87,18 @@
     <ClInclude Include="PullCommand.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="Branch.h">
+      <Filter>structure</Filter>
+    </ClInclude>
+    <ClInclude Include="FileBag.h">
+      <Filter>structure</Filter>
+    </ClInclude>
+    <ClInclude Include="FileBagFactory.h">
+      <Filter>structure</Filter>
+    </ClInclude>
+    <ClInclude Include="LogControl.h">
+      <Filter>log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -92,5 +110,19 @@
     <ClCompile Include="CommandSwitcher.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="Branch.cpp">
+      <Filter>structure</Filter>
+    </ClCompile>
+    <ClCompile Include="FileBag.cpp">
+      <Filter>structure</Filter>
+    </ClCompile>
+    <ClCompile Include="FileBagFactory.cpp">
+      <Filter>structure</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Log.log">
+      <Filter>log</Filter>
+    </Text>
   </ItemGroup>
 </Project>
