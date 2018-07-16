@@ -31,6 +31,9 @@
     <Filter Include="log">
       <UniqueIdentifier>{00cd66b6-eb3c-4f5c-93b4-6c331522fb85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="file">
+      <UniqueIdentifier>{f4679aca-bf95-4f6b-b71e-35b2bf77b260}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -99,6 +102,18 @@
     <ClInclude Include="LogControl.h">
       <Filter>log</Filter>
     </ClInclude>
+    <ClInclude Include="FileFinder.h">
+      <Filter>file</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWriter.h">
+      <Filter>file</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>file</Filter>
+    </ClInclude>
+    <ClInclude Include="BranchFactory.h">
+      <Filter>structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -117,6 +132,9 @@
       <Filter>structure</Filter>
     </ClCompile>
     <ClCompile Include="FileBagFactory.cpp">
+      <Filter>structure</Filter>
+    </ClCompile>
+    <ClCompile Include="BranchFactory.cpp">
       <Filter>structure</Filter>
     </ClCompile>
   </ItemGroup>

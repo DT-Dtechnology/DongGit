@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Branch.h" />
+    <ClInclude Include="BranchFactory.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="AddCommand.h" />
     <ClInclude Include="BranchCommand.h" />
@@ -158,6 +159,9 @@
     <ClInclude Include="FetchCommand.h" />
     <ClInclude Include="FileBag.h" />
     <ClInclude Include="FileBagFactory.h" />
+    <ClInclude Include="FileFinder.h" />
+    <ClInclude Include="FileReader.h" />
+    <ClInclude Include="FileWriter.h" />
     <ClInclude Include="InitCommand.h" />
     <ClInclude Include="LogControl.h" />
     <ClInclude Include="MergeCommand.h" />
@@ -172,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Branch.cpp" />
+    <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="DongGit.cpp" />
     <ClCompile Include="FileBag.cpp" />
