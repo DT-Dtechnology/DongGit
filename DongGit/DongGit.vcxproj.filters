@@ -117,10 +117,10 @@
     <ClInclude Include="BranchFactory.h">
       <Filter>structure</Filter>
     </ClInclude>
-    <ClInclude Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5.h">
+    <ClInclude Include="md5.h">
       <Filter>Hash</Filter>
     </ClInclude>
-    <ClInclude Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5_wrapper.h">
+    <ClInclude Include="md5_wrapper.h">
       <Filter>Hash</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,10 +146,10 @@
     <ClCompile Include="BranchFactory.cpp">
       <Filter>structure</Filter>
     </ClCompile>
-    <ClCompile Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5.cpp">
+    <ClCompile Include="md5.cpp">
       <Filter>Hash</Filter>
     </ClCompile>
-    <ClCompile Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5_wrapper.cpp">
+    <ClCompile Include="md5_wrapper.cpp">
       <Filter>Hash</Filter>
     </ClCompile>
   </ItemGroup>

@@ -156,8 +156,6 @@
     <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
-    <ClInclude Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5.h" />
-    <ClInclude Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5_wrapper.h" />
     <ClInclude Include="FetchCommand.h" />
     <ClInclude Include="FileBag.h" />
     <ClInclude Include="FileBagFactory.h" />
@@ -166,6 +164,8 @@
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="InitCommand.h" />
     <ClInclude Include="LogControl.h" />
+    <ClInclude Include="md5.h" />
+    <ClInclude Include="md5_wrapper.h" />
     <ClInclude Include="MergeCommand.h" />
     <ClInclude Include="PullCommand.h" />
     <ClInclude Include="PushCommand.h" />
@@ -181,10 +181,10 @@
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="DongGit.cpp" />
-    <ClCompile Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5.cpp" />
-    <ClCompile Include="F:\Visual Studio Project\md5-hasher-master\src\md5\md5_wrapper.cpp" />
     <ClCompile Include="FileBag.cpp" />
     <ClCompile Include="FileBagFactory.cpp" />
+    <ClCompile Include="md5.cpp" />
+    <ClCompile Include="md5_wrapper.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
