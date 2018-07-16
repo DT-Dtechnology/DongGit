@@ -153,12 +153,13 @@
     <ClInclude Include="AddCommand.h" />
     <ClInclude Include="BranchCommand.h" />
     <ClInclude Include="CheckoutCommand.h" />
+    <ClInclude Include="CommitAllCommand.h" />
     <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
     <ClInclude Include="FetchCommand.h" />
-    <ClInclude Include="FileBag.h" />
-    <ClInclude Include="FileBagFactory.h" />
+    <ClInclude Include="FileNode.h" />
+    <ClInclude Include="FileNodeFactory.h" />
     <ClInclude Include="FileFinder.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
@@ -181,8 +182,8 @@
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="DongGit.cpp" />
-    <ClCompile Include="FileBag.cpp" />
-    <ClCompile Include="FileBagFactory.cpp" />
+    <ClCompile Include="FileNode.cpp" />
+    <ClCompile Include="FileNodeFactory.cpp" />
     <ClCompile Include="md5.cpp" />
     <ClCompile Include="md5_wrapper.cpp" />
     <ClCompile Include="stdafx.cpp">

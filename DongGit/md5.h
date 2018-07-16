@@ -33,6 +33,10 @@
 #ifndef _MD5_H_
 #define _MD5_H_
 
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <string>
 #include <cstring>
 

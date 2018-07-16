@@ -25,6 +25,10 @@
 #ifndef _MD5WRAPPER_H_
 #define _MD5WRAPPER_H_
 
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <string>
 
 class MD5;
