@@ -39,6 +39,48 @@
     <ClInclude Include="DebugInclude.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="CommandSwitcher.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="BranchCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckoutCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="CommitCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="DropCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="InitCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="FetchCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="DiffCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="PushCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="PullCommand.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -46,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="DongGit.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandSwitcher.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
