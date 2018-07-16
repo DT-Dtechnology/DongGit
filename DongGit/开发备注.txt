@@ -1,2 +1,2 @@
 重要提示：
-1.
+1. 存储库中文件的命名filename即为hashValue

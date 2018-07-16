@@ -10,7 +10,8 @@ using std::string;
 
 class FileNode
 {
-	string hashValue_;
+	string file_name_;	// 文件名，这里为工作区中文件名，不同于hashValue
+	string hash_value_;
 	FileNode* pre_;		// 在文件中以Hash值存储，读取时转化为FileNode，同时空指针为0
 public:
 	FileNode();

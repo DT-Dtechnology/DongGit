@@ -1,14 +1,21 @@
 #pragma once
 #include <string>
+#include <vector> 
+#include "FileNode.h"
 
 using std::string;
 
+typedef std::vector<FileNode*> NodeVector;
+
 /**
  * \brief 记录分支的基本信息，包含自身整体Hash值，自身名字，自身的FileNode的vector
- * 要求插入时按照
+ * 要求插入时按照字典序添加，注意要保留已经删除的节点信息，为了方便后续还原操作
  */
 class Branch
 {
+	string branch_name_;
+	string hasd_value_;
+	NodeVector node_vector_;
 
 public:
 	
