@@ -17,7 +17,6 @@ void FileNode::init_hash()
 	out.open(FILE_TEMP);
 	out << pre_;		// 首先将Pre的信息写入
 
-	// TODO:通过文件名读取全部文件内容
 	ifstream in;
 	in.open(file_name_);
 	std::ostringstream tmp;
