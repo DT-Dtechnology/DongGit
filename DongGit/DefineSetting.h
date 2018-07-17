@@ -1,6 +1,6 @@
 #pragma once
 
-#define CURRENT_BRANCH ".git\\db\\Current_Branch"
+#define CURRENT_BRANCH ".git\\status\\Current_Branch"
 #define GIT_HEAD ".git\\"
 
 #define INFO_DB ".git\\db\\Infodb"

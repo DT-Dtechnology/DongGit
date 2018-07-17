@@ -55,7 +55,7 @@ void init_db()
 	// 创建Branch的对应表
 	auto sql = "CREATE TABLE BRANCH_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
-		"HASH PRIMARY KEY TEXT)";
+		"HASH TEXT PRIMARY KEY)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -69,7 +69,7 @@ void init_db()
 	// 创建File的对应表
 	sql = "CREATE TABLE FILE_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
-		"HASH PRIMARY KEY TEXT)";
+		"HASH TEXT PRIMARY KEY)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -106,6 +106,7 @@ void initial_all()
 {
 	init_folder();
 	init_file();
+	init_db();
 	create_master();
 	std::cout << "Initial All" << endl;
 }
