@@ -150,12 +150,14 @@
     <ClInclude Include="BasicCommandFunction.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="BranchFactory.h" />
+    <ClInclude Include="callback.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="AddCommand.h" />
     <ClInclude Include="BranchCommand.h" />
     <ClInclude Include="CheckoutCommand.h" />
     <ClInclude Include="CommitAllCommand.h" />
     <ClInclude Include="CommitCommand.h" />
+    <ClInclude Include="db_operate.h" />
     <ClInclude Include="Init.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
@@ -175,7 +177,7 @@
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="ResetCommand.h" />
     <ClInclude Include="CommandSwitcher.h" />
-    <ClInclude Include="DebugInclude.h" />
+    <ClInclude Include="DefineSetting.h" />
     <ClInclude Include="ReleaseInclude.h" />
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="stdafx.h" />
@@ -189,6 +191,7 @@
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CheckoutCommand.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
+    <ClCompile Include="db_operate.cpp" />
     <ClCompile Include="Init.cpp" />
     <ClCompile Include="DongGit.cpp" />
     <ClCompile Include="FileNode.cpp" />

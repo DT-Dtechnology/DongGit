@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "CheckoutCommand.h"
-#include "DebugInclude.h"
 #include <io.h>
 
 void checkout_command(const string& branch_name)

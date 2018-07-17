@@ -54,9 +54,6 @@
     <ClInclude Include="ReleaseInclude.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="DebugInclude.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="CommandSwitcher.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -150,6 +147,15 @@
     <ClInclude Include="sqlite3.h">
       <Filter>db</Filter>
     </ClInclude>
+    <ClInclude Include="db_operate.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineSetting.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="callback.h">
+      <Filter>db</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="Init.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="db_operate.cpp">
+      <Filter>db</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

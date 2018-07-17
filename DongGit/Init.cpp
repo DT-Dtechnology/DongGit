@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Init.h"
-#include "DebugInclude.h"
 #include <direct.h>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "sqlite3.h"
+#include "callback.h"
 
 using std::string;
 using std::ofstream;
@@ -35,13 +36,59 @@ void init_file()
 
 void init_db()
 {
-	// TODO:创建两个数据库
+	sqlite3* db;
+	char *zErrMsg = nullptr;
+	int  rc;
+
+	sqlite3_open(INFO_DB, &db);
+
+	// 检测是否正确创建
+	rc = sqlite3_open("test.db", &db);
+	if (rc) {
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		exit(0);
+	}
+	else {
+		fprintf(stdout, "Opened database successfully\n");
+	}
+
+	// 创建Branch的对应表
+	auto sql = "CREATE TABLE BRANCH_MATCH("  \
+		"NAME TEXT NOT NULL,"		\
+		"HASH PRIMARY KEY TEXT)";
+
+	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
+	else {
+		fprintf(stdout, "Table created successfully\n");
+	}
+
+	// 创建File的对应表
+	sql = "CREATE TABLE FILE_MATCH("  \
+		"NAME TEXT NOT NULL,"		\
+		"HASH PRIMARY KEY TEXT)";
+
+	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
+	else {
+		fprintf(stdout, "Table created successfully\n");
+	}
+
+	sqlite3_close(db);
 }
 
 void create_master()
 {
 	ofstream out;
-	out.open(BRANCH_MATCH);
+	
+	// TODO:向数据中的Branch数据表中添加新的对应
+
 	out << "master" << " " << NONE_FILE_HASH << endl;
 	out.close();
 
