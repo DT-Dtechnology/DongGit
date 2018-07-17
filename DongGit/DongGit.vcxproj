@@ -177,6 +177,8 @@
     <ClInclude Include="ReleaseInclude.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="HelpMassage.h" />
+    <ClInclude Include="Error.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Branch.cpp" />
@@ -194,6 +196,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="InitCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log" />

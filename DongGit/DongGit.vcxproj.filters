@@ -40,6 +40,9 @@
     <Filter Include="ref">
       <UniqueIdentifier>{bc27a2ca-1dc4-4398-b356-f215f1239f98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Error">
+      <UniqueIdentifier>{a0b14d3d-f434-4d2a-bca2-f1605908c66f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +135,12 @@
     <ClInclude Include="dbInit.h">
       <Filter>db</Filter>
     </ClInclude>
+    <ClInclude Include="HelpMassage.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Error.h">
+      <Filter>Error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="dbInit.cpp">
       <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="InitCommand.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

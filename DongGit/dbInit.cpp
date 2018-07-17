@@ -50,6 +50,8 @@ void create_master()
 	out << "master" << endl;
 	out.close();
 
+	_mkdir(".git/ref/master");
+
 	// Write Log 
 
 }
@@ -60,4 +62,11 @@ void initial_all()
 	init_file();
 	create_master();
 	std::cout << "Initial All" << endl;
+}
+
+void initial_all(const std::string& path)
+{
+	string cmd = "cd " + path;
+	system("cmd");
+	initial_all();
 }
