@@ -132,9 +132,6 @@
     <ClInclude Include="FileNodeFactory.h">
       <Filter>structure</Filter>
     </ClInclude>
-    <ClInclude Include="dbInit.h">
-      <Filter>db</Filter>
-    </ClInclude>
     <ClInclude Include="HelpMassage.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -146,6 +143,12 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>structure</Filter>
+    </ClInclude>
+    <ClInclude Include="Init.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>db</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +179,6 @@
     <ClCompile Include="FileNodeFactory.cpp">
       <Filter>structure</Filter>
     </ClCompile>
-    <ClCompile Include="dbInit.cpp">
-      <Filter>db</Filter>
-    </ClCompile>
     <ClCompile Include="InitCommand.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -193,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Init.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

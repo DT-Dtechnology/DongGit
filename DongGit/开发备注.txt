@@ -10,3 +10,4 @@
 9. .git\status文件夹用于记录当前状态信息，其中Current文件用于记录当前分着
 10.修改5.，Match信息使用数据库存储sqlite3
 11.c++的fstream的文件写为覆盖
+12.数据库中主键为Hash，File_Match仅需添加，Branch_Match既有添加又有更新

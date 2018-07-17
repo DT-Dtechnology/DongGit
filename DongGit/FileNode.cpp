@@ -66,3 +66,8 @@ void FileNode::write()
 	out.close();
 
 }
+
+void FileNode::insert()
+{
+	// TODO:向File_Match中添加对应
+}

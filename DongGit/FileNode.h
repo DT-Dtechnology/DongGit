@@ -27,5 +27,6 @@ public:
 	void setPreNode(const string& hash_value);	// 基于文件中记录的Hash值来创建链接
 
 	void write();
+	void insert();
 };
 

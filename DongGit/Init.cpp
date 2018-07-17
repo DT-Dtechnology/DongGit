@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "dbInit.h"
+#include "Init.h"
 #include "DebugInclude.h"
 #include <direct.h>
 #include <string>
@@ -29,14 +29,13 @@ void init_file()
 {
 	ofstream out;
 
-	out.open(FILE_MATCH);
-	out.close();
-
-	out.open(BRANCH_MATCH);
-	out.close();
-
 	out.open(CURRENT_BRANCH);
 	out.close();
+}
+
+void init_db()
+{
+	// TODO:创建两个数据库
 }
 
 void create_master()

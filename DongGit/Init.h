@@ -10,6 +10,8 @@ void init_folder();
 
 void init_file();
 
+void init_db();
+
 void create_master();
 
 void initial_all();
