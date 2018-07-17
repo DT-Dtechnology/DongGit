@@ -215,4 +215,14 @@
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="sqlite3.dll">
+      <Filter>db</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="sqlite3.lib">
+      <Filter>db</Filter>
+    </Library>
+  </ItemGroup>
 </Project>

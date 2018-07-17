@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InitCommand.h"
 #include <io.h>
-#include "dbInit.h"
+#include "Init.h"
 
 void init_command()
 {
