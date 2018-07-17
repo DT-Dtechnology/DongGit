@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BasicCommandFunction.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="BranchFactory.h" />
     <ClInclude Include="Command.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="md5.h" />
     <ClInclude Include="md5_wrapper.h" />
     <ClInclude Include="MergeCommand.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="PullCommand.h" />
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="ResetCommand.h" />
@@ -181,15 +183,19 @@
     <ClInclude Include="Error.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicCommandFunction.cpp" />
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="BranchFactory.cpp" />
+    <ClCompile Include="CheckoutCommand.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="dbInit.cpp" />
     <ClCompile Include="DongGit.cpp" />
     <ClCompile Include="FileNode.cpp" />
     <ClCompile Include="FileNodeFactory.cpp" />
+    <ClCompile Include="HelpMessage.cpp" />
     <ClCompile Include="md5.cpp" />
     <ClCompile Include="md5_wrapper.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

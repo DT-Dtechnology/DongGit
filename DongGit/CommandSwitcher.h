@@ -1,3 +1,3 @@
 #pragma once
 
-void CommandSwitcher(int, char**);
+void CommandSwitcher(int,const char* []);

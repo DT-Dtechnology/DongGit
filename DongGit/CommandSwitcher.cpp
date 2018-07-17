@@ -10,7 +10,8 @@ void CommandSwitcher(int argc, const char* argv[])
 		help_message();
 	else
 	{
-		if(argv[1] == "init")
+		const string instruct(argv[1]);
+		if (instruct == "init")
 		{
 			if (argc == 2)
 				init_command();
@@ -19,6 +20,56 @@ void CommandSwitcher(int argc, const char* argv[])
 			else
 				throw Error("Paraments more than needed.");
 		}
+		else if (instruct == "add")
+		{
+
+		}
+		else if (instruct == "commit")
+		{
+
+		}
+		else if (instruct == "commit-a")
+		{
+
+		}
+		else if (instruct == "branch")
+		{
+
+		}
+		else if (instruct == "checkout")
+		{
+
+		}
+		else if (instruct == "drop")
+		{
+
+		}
+		else if (instruct == "reset")
+		{
+
+		}
+		else if (instruct == "fetch")
+		{
+
+		}
+		else if (instruct == "merge")
+		{
+
+		}
+		else if (instruct == "diff")
+		{
+
+		}
+		else if (instruct == "push")
+		{
+
+		}
+		else if (instruct == "pull")
+		{
+
+		}
+		else
+			throw Error("No such an instruction.");
 	}
 }
 

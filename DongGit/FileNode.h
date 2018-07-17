@@ -8,14 +8,22 @@
 
 using std::string;
 
+class Branch;
+
 class FileNode
 {
 	string file_name_;	// 文件名，这里为工作区中文件名，不同于hashValue
 	string hash_value_;
 	string pre_ ;		// 在文件中以Hash值存储，
 						// 全部为0表示未创建状态（基准状态）
+	friend Branch;
+
+	void get_hash();
+
 public:
-	FileNode(const string& file_name);
+	FileNode(const string& file_name, const string& file_hash);
 	void setPreNode(const string& hash_value);	// 基于文件中记录的Hash值来创建链接
+
+	void write();
 };
 

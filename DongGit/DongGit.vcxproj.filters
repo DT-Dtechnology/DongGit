@@ -141,6 +141,12 @@
     <ClInclude Include="Error.h">
       <Filter>Error</Filter>
     </ClInclude>
+    <ClInclude Include="BasicCommandFunction.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,6 +181,18 @@
     </ClCompile>
     <ClCompile Include="InitCommand.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckoutCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpMessage.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicCommandFunction.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>structure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
