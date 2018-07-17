@@ -161,6 +161,9 @@
     <ClCompile Include="FileNodeFactory.cpp">
       <Filter>structure</Filter>
     </ClCompile>
+    <ClCompile Include="dbInit.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log">

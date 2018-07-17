@@ -182,6 +182,7 @@
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
+    <ClCompile Include="dbInit.cpp" />
     <ClCompile Include="DongGit.cpp" />
     <ClCompile Include="FileNode.cpp" />
     <ClCompile Include="FileNodeFactory.cpp" />

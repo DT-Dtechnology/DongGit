@@ -1,6 +1,4 @@
 #pragma once
+#include <string>
 
-class LogControl
-{
-	
-};
+void logWrite(const std::string message);

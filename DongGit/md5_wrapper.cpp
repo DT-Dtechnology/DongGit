@@ -29,7 +29,7 @@
 #include "md5_wrapper.h"
 #include "md5.h"
 
-#define NONE_FILE_HASH "00000000000000000000000000000000"
+#include "DebugInclude.h"
 
 /*
  * internal hash function, calling
