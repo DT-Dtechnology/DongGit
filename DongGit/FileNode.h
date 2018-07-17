@@ -19,8 +19,10 @@ class FileNode
 	friend Branch;
 
 	void get_hash();
+	void init_hash();
 
 public:
+	FileNode(const string& file_name);
 	FileNode(const string& file_name, const string& file_hash);
 	void setPreNode(const string& hash_value);	// 基于文件中记录的Hash值来创建链接
 

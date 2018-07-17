@@ -1,16 +1,18 @@
 #include "stdafx.h"
 #include "Branch.h"
 
-#define TEMP_FILE "temp_file"
+#define BRANCH_TEMP "Branch_Temp"
 
 void Branch::write()
 {
 	// 仅写入文件，不更新
+	init_hash();
+
 	ofstream out;
-	get_hash();
 
 	if (_access((GIT_OBJECT_HEAD + hash_value_).c_str(), 0) != -1)
 		return;
+
 	out.open(GIT_OBJECT_HEAD + hash_value_);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
 		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
@@ -19,14 +21,22 @@ void Branch::write()
 
 void Branch::get_hash()
 {
+	md5wrapper md5;
+	hash_value_ = md5.getHashFromFile(GIT_OBJECT_HEAD + hash_value_);
+}
+
+void Branch::init_hash()
+{
 	ofstream out;
-	out.open(TEMP_FILE);
+	out.open(BRANCH_TEMP);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
 		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
 
 	md5wrapper md5;
-	hash_value_ = md5.getHashFromFile(TEMP_FILE);
+	hash_value_ = md5.getHashFromFile(BRANCH_TEMP);
+
+	remove(BRANCH_TEMP);
 }
 
 Branch::Branch(const string& hash_value):hash_value_(hash_value)

@@ -18,6 +18,7 @@ class Branch
 	NodeVector node_vector_;
 
 	void get_hash();
+	void init_hash();
 public:
 
 	Branch(const string& hash_value);
