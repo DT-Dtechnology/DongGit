@@ -155,6 +155,7 @@
     <ClInclude Include="CheckoutCommand.h" />
     <ClInclude Include="CommitAllCommand.h" />
     <ClInclude Include="CommitCommand.h" />
+    <ClInclude Include="dbInit.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
     <ClInclude Include="FetchCommand.h" />

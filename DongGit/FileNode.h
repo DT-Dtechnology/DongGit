@@ -12,9 +12,10 @@ class FileNode
 {
 	string file_name_;	// 文件名，这里为工作区中文件名，不同于hashValue
 	string hash_value_;
-	FileNode* pre_;		// 在文件中以Hash值存储，读取时转化为FileNode，同时空指针为0
+	string pre_ ;		// 在文件中以Hash值存储，
+						// 全部为0表示未创建状态（基准状态）
 public:
-	FileNode();
-	~FileNode();
+	FileNode(const string& file_name);
+	void setPreNode(const string& hash_value);	// 基于文件中记录的Hash值来创建链接
 };
 

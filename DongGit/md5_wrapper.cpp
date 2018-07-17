@@ -29,6 +29,8 @@
 #include "md5_wrapper.h"
 #include "md5.h"
 
+#define NONE_FILE_HASH "00000000000000000000000000000000"
+
 /*
  * internal hash function, calling
  * the basic methods from md5.h
@@ -108,7 +110,7 @@ std::string md5wrapper::getHashFromFile(std::string filename)
     //open file
       if ((file = fopen(filename.c_str(), "rb")) == NULL)
     {
-        return "-1";
+        return NONE_FILE_HASH;
     }
 
     //init md5

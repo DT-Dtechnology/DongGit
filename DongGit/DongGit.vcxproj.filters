@@ -129,6 +129,9 @@
     <ClInclude Include="FileNodeFactory.h">
       <Filter>structure</Filter>
     </ClInclude>
+    <ClInclude Include="dbInit.h">
+      <Filter>db</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
