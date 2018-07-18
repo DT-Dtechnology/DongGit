@@ -155,7 +155,7 @@
     <ClInclude Include="AddCommand.h" />
     <ClInclude Include="BranchCommand.h" />
     <ClInclude Include="CheckoutCommand.h" />
-    <ClInclude Include="CommitAllCommand.h" />
+    <ClInclude Include="CommitAddCommand.h" />
     <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="db_operate.h" />
     <ClInclude Include="Init.h" />
@@ -186,11 +186,13 @@
     <ClInclude Include="Error.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddCommand.cpp" />
     <ClCompile Include="BasicCommandFunction.cpp" />
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CheckoutCommand.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />
+    <ClCompile Include="CommitAddCommand.cpp" />
     <ClCompile Include="db_operate.cpp" />
     <ClCompile Include="Init.cpp" />
     <ClCompile Include="DongGit.cpp" />

@@ -120,9 +120,6 @@
     <ClInclude Include="md5_wrapper.h">
       <Filter>Hash</Filter>
     </ClInclude>
-    <ClInclude Include="CommitAllCommand.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="FileNode.h">
       <Filter>structure</Filter>
     </ClInclude>
@@ -155,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="callback.h">
       <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="CommitAddCommand.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="db_operate.cpp">
       <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="AddCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="CommitAddCommand.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

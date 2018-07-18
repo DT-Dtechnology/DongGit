@@ -12,7 +12,7 @@ bool uncommited_change()
 
 	// TODO:更新检测先判断长度，之后逐项判断；如果有更新，则返回false
 
-	return true;
+	return false;
 }
 
 void refresh_file(const string& branch_name)

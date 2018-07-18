@@ -19,7 +19,6 @@ class FileNode
 	friend Branch;
 
 	void get_hash();
-	void init_hash();
 
 public:
 	FileNode(const string& file_name);

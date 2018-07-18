@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CheckoutCommand.h"
+#include "BasicCommandFunction.h"
 #include <io.h>
 
 void checkout_command(const string& branch_name)
@@ -7,7 +8,9 @@ void checkout_command(const string& branch_name)
 	string path_name = GIT_HEAD + branch_name;
 	if (_access(path_name.c_str(), 0) != -1)
 	{
-		// TODO：判断是否存在未提交更改
+		// 判断是否存在未提交更改
+		if (uncommited_change())
+			throw Error("Unsummited change");
 
 
 		string old_branch;
@@ -23,7 +26,8 @@ void checkout_command(const string& branch_name)
 		out << branch_name << endl;
 		out.close();
 
-		// TODO:切换工作区文件
+		// 切换工作区文件
+		refresh_file(branch_name);
 	}
 	else
 		throw Error("You don not have this branch");

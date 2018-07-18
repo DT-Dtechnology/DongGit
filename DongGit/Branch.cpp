@@ -7,7 +7,7 @@
 void Branch::write()
 {
 	// 仅写入文件，不更新
-	init_hash();
+	get_hash();
 
 	ofstream out;
 
@@ -21,12 +21,6 @@ void Branch::write()
 }
 
 void Branch::get_hash()
-{
-	md5wrapper md5;
-	hash_value_ = md5.getHashFromFile(GIT_OBJECT_HEAD + hash_value_);
-}
-
-void Branch::init_hash()
 {
 	ofstream out;
 	out.open(BRANCH_TEMP);
@@ -42,7 +36,7 @@ void Branch::init_hash()
 
 Branch::Branch(const string& name):branch_name_(name)
 {
-	// TODO:通过数据库获取Hash值对应的数据项，即<分支>Hash
+	// 通过数据库获取Hash值对应的数据项，即<分支>Hash
 	hash_value_ = Branch_Search_Hash(name);
 
 	// 获取NodeVector

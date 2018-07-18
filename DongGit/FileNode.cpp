@@ -5,36 +5,16 @@
 
 #define FILE_TEMP "File_Temp"
 
+// TODO:如何获取前继节点信息，可以尝试利用数据库
+
 void FileNode::get_hash()
 {
 	md5wrapper md5;
-	hash_value_ = md5.getHashFromFile(GIT_OBJECT_HEAD + hash_value_);
-}
-
-void FileNode::init_hash()
-{
-	ofstream out;
-	out.open(FILE_TEMP);
-	out << pre_;		// 首先将Pre的信息写入
-
-	ifstream in;
-	in.open(file_name_);
-	std::ostringstream tmp;
-	tmp << in.rdbuf();
-	const string str = tmp.str();
-	in.close();
-	out << str;
-	out.close();
-
-	md5wrapper md5;
-	hash_value_ = md5.getHashFromFile(FILE_TEMP);
-
-	remove(FILE_TEMP);
+	hash_value_ = md5.getHashFromFile(file_name_);
 }
 
 FileNode::FileNode(const string& file_name):file_name_(file_name)
 {
-	write();
 	get_hash();
 }
 
@@ -48,14 +28,13 @@ inline void FileNode::setPreNode(const string& hash_value)
 
 void FileNode::write()
 {
-	init_hash();
+	get_hash();
 
 	if (_access((GIT_OBJECT_HEAD + hash_value_).c_str(), 0) != -1)
 		return;
 
 	ofstream out;
 	out.open(GIT_OBJECT_HEAD + hash_value_);
-	out << pre_;		// 首先将Pre的信息写入
 	
 	ifstream in;
 	in.open(file_name_);
