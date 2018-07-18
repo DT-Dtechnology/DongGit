@@ -69,7 +69,8 @@ void init_db()
 	// 创建File的对应表
 	sql = "CREATE TABLE FILE_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
-		"HASH TEXT PRIMARY KEY)";
+		"HASH TEXT PRIMARY KEY,"	\
+		"PRE_HASH TEXT NOT NULL)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
 	if (rc != SQLITE_OK) {
