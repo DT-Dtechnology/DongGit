@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Branch.h"
+#include "db_operate.h"
 
 #define BRANCH_TEMP "Branch_Temp"
 
@@ -39,23 +40,35 @@ void Branch::init_hash()
 	remove(BRANCH_TEMP);
 }
 
-Branch::Branch(const string& hash_value):hash_value_(hash_value)
+Branch::Branch(const string& name):branch_name_(name)
 {
-	// TODO:通过数据库获取Hash值对应的数据项，即<分支>名称
-
+	// TODO:通过数据库获取Hash值对应的数据项，即<分支>Hash
+	hash_value_ = Branch_Search_Hash(name);
 
 	// 获取NodeVector
 	string file_name;
 	string file_hash;
 
 	ifstream in;
-	in.open(GIT_OBJECT_HEAD + hash_value);
+	in.open(GIT_OBJECT_HEAD + name);
 	while(in)
 	{
 		in >> file_name >> file_hash;
 		const FileNode file(file_name, file_hash);
 		node_vector_.push_back(file);
 	}
+}
+
+Branch::Branch()
+{
+	// 获取文件名
+	ifstream in;
+	in.open(CURRENT_BRANCH);
+	string current;
+	in >> current;
+	in.close();
+
+	// TODO:获取当前工作区所有文件的文件名，并生成Hash值，并添加到NodeVector中
 }
 
 void Branch::update()
@@ -77,6 +90,11 @@ void Branch::insert()
 	get_hash();
 
 	// TODO:向数据库中添加信息
+}
+
+inline NodeVector& Branch::getNodeVector()
+{
+	return node_vector_;
 }
 
 

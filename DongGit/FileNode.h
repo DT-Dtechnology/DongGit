@@ -28,5 +28,7 @@ public:
 
 	void write();
 	void insert();
+	string getName() const;
+	string getHash() const;
 };
 

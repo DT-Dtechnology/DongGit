@@ -56,13 +56,11 @@ void FileNode::write()
 	ofstream out;
 	out.open(GIT_OBJECT_HEAD + hash_value_);
 	out << pre_;		// 首先将Pre的信息写入
+	
 	ifstream in;
 	in.open(file_name_);
-	std::ostringstream tmp;
-	tmp << in.rdbuf();
-	const string str = tmp.str();
+	out << in.rdbuf();
 	in.close();
-	out << str;
 	out.close();
 
 }
@@ -70,4 +68,14 @@ void FileNode::write()
 void FileNode::insert()
 {
 	// TODO:向File_Match中添加对应
+}
+
+inline string FileNode::getName() const
+{
+	return file_name_;
+}
+
+inline string FileNode::getHash() const
+{
+	return hash_value_;
 }
