@@ -212,6 +212,9 @@
     <ClCompile Include="CommitAddCommand.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="BranchCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log">

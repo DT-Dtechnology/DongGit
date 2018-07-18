@@ -36,8 +36,7 @@ void Branch::get_hash()
 
 Branch::Branch(const string& name):branch_name_(name)
 {
-	// 通过数据库获取Hash值对应的数据项，即<分支>Hash
-	hash_value_ = Branch_Search_Hash(name);
+	// TODO:通过数据库获取Hash值对应的数据项，即<分支>Hash和pre和his_id
 
 	// 获取NodeVector
 	string file_name;
@@ -53,24 +52,12 @@ Branch::Branch(const string& name):branch_name_(name)
 	}
 }
 
-Branch::Branch()
-{
-	// 获取文件名
-	ifstream in;
-	in.open(CURRENT_BRANCH);
-	string current;
-	in >> current;
-	in.close();
-
-	// TODO:获取当前工作区所有文件的文件名，并生成Hash值，并添加到NodeVector中
-}
 
 void Branch::update()
 {
-	// 更新数据库中内容
 	get_hash();
 
-	// TODO:更新数据库的指向信息
+	// TODO:更新数据库
 }
 
 void Branch::addFile(const FileNode& file)
@@ -89,6 +76,13 @@ void Branch::insert()
 inline NodeVector& Branch::getNodeVector()
 {
 	return node_vector_;
+}
+
+void Branch::reset_branch(const string& name)
+{
+	branch_name_ = name;
+	pre_branch_ = NONE_FILE_HASH;
+	his_id_ = 0;
 }
 
 

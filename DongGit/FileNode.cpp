@@ -23,7 +23,7 @@ FileNode::FileNode(const string& file_name, const string& file_hash)
 
 inline void FileNode::setPreNode(const string& hash_value)
 {
-	pre_ = hash_value;
+	pre_file_ = hash_value;
 }
 
 void FileNode::write()

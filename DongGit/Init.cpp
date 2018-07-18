@@ -55,7 +55,10 @@ void init_db()
 	// 创建Branch的对应表
 	auto sql = "CREATE TABLE BRANCH_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
-		"HASH TEXT PRIMARY KEY)";
+		"HASH TEXT NOT NULL,"		\
+		"PRE_HASH TEXT NOT NULL"	\
+		"HIS_ID INTEGER,"\
+		"DISC	TEXT)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
 	if (rc != SQLITE_OK) {

@@ -8,11 +8,13 @@ using std::string;
 // BRANCH_MATCH: Hash和对应的最新分支名Branch
 // 暂时没有考虑远程数据库的问题
 
-void File_Match_Insert(const string& name, const string hash);
+void File_Match_Insert(const string& name, const string& hash);
 
-void Branch_Match_Insert(const string& name, const string hash);
+void File_Match_Update(const string& name, const string& hash, const string& pre_hash);
 
-void Branch_Match_Update(const string& name, const string hash);
+void Branch_Match_Insert(const string& name, const string& hash);
+
+void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id);
 
 string Branch_Search_Name(const string& hash);
 

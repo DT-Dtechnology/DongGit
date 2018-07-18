@@ -189,6 +189,7 @@
     <ClCompile Include="AddCommand.cpp" />
     <ClCompile Include="BasicCommandFunction.cpp" />
     <ClCompile Include="Branch.cpp" />
+    <ClCompile Include="BranchCommand.cpp" />
     <ClCompile Include="BranchFactory.cpp" />
     <ClCompile Include="CheckoutCommand.cpp" />
     <ClCompile Include="CommandSwitcher.cpp" />

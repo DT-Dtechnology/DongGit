@@ -16,13 +16,15 @@ class Branch
 	string branch_name_;
 	string hash_value_;
 	NodeVector node_vector_{};
+	string pre_branch_;
+	int his_id_;
 
 	void get_hash();
 
 public:
 
 	Branch(const string& hash_value);
-	Branch();
+
 	/**
 	 * \brief 用于记录分支信息，包含Head指向位置，以及文件的历史沿革，不记录文件，仅保留Hash
 	 * 分支本身为横向结构，文件版本为纵向结构。
@@ -33,5 +35,7 @@ public:
 	void addFile(const FileNode& file);
 	void insert();
 	NodeVector& getNodeVector();
+
+	void reset_branch(const string& name);
 };
 
