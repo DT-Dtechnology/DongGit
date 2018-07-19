@@ -38,3 +38,8 @@ string File_Search_Name(const string& hash)
 string File_Search_Hash(const string& name)
 {
 }
+
+string File_Match_Pre(const string& hash)
+{
+	// TODO:更新前继节点
+}

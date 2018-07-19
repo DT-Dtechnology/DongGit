@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Branch.h"
 #include "db_operate.h"
+#include <algorithm>
 
 #define BRANCH_TEMP "Branch_Temp"
 
@@ -22,6 +23,8 @@ void Branch::write()
 
 void Branch::get_hash()
 {
+	sort_file();
+
 	ofstream out;
 	out.open(BRANCH_TEMP);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
@@ -32,6 +35,12 @@ void Branch::get_hash()
 	hash_value_ = md5.getHashFromFile(BRANCH_TEMP);
 
 	remove(BRANCH_TEMP);
+}
+
+void Branch::sort_file()
+{
+	// 按文件名进行排序
+	std::sort(node_vector_.begin(), node_vector_.end(), file_name_compare);
 }
 
 Branch::Branch(const string& name):branch_name_(name)
@@ -50,6 +59,8 @@ Branch::Branch(const string& name):branch_name_(name)
 		const FileNode file(file_name, file_hash);
 		node_vector_.push_back(file);
 	}
+
+	get_hash();
 }
 
 
@@ -86,4 +97,18 @@ void Branch::reset_branch(const string& name)
 }
 
 
+bool operator==(const Branch& left, const Branch& right)
+{
+	// ??? 是否需要保证pre_hash同样相同 ???
+	return (left.branch_name_ == right.branch_name_) &&
+		(left.hash_value_ == right.hash_value_);
+}
 
+bool operator>=(const Branch& left, const Branch& right)
+{
+	// TODO:判断left上的全部文件节点是否均比right上对应结点新，注意，当right对应为空节点时，永远为新
+	
+	// TODO:为此，需要构建right的对应关系的map
+
+	// TODO:依次判断各个节点的更新情况
+}

@@ -20,6 +20,7 @@ class Branch
 	int his_id_;
 
 	void get_hash();
+	void sort_file();
 
 public:
 
@@ -37,5 +38,11 @@ public:
 	NodeVector& getNodeVector();
 
 	void reset_branch(const string& name);
+
+	// 判断分支是否相同
+	friend bool operator==(const Branch& left, const Branch& right);
+
+	// 判断分支是否更新
+	friend bool operator>=(const Branch& left, const Branch& right);
 };
 

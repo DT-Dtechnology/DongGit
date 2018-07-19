@@ -40,10 +40,9 @@ void init_db()
 	char *zErrMsg = nullptr;
 	int  rc;
 
-	sqlite3_open(INFO_DB, &db);
-
 	// 检测是否正确创建
-	rc = sqlite3_open("test.db", &db);
+	rc = sqlite3_open(INFO_DB, &db);
+
 	if (rc) {
 		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
 		exit(0);
