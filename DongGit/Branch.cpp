@@ -100,7 +100,7 @@ void Branch::set_start(const string& new_name)
 	pre_branch_ = NONE_FILE_HASH;
 }
 
-inline NodeVector& Branch::getNodeVector()
+NodeVector& Branch::getNodeVector()
 {
 	return node_vector_;
 }

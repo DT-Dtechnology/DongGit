@@ -17,7 +17,7 @@ FileNode::FileNode(const string& file_name):file_name_(file_name)
 FileNode::FileNode(const string& file_name, const string& file_hash)
 	:file_name_(file_name), hash_value_(file_hash) { }
 
-inline void FileNode::setPreNode(const string& hash_value)
+void FileNode::setPreNode(const string& hash_value)
 {
 	pre_file_ = hash_value;
 }
@@ -50,14 +50,14 @@ inline string FileNode::getName() const
 	return file_name_;
 }
 
-inline string FileNode::getHash() const
+string FileNode::getHash() const
 {
 	return hash_value_;
 }
 
-inline bool file_name_compare(const FileNode& left, const FileNode& right)
+bool file_name_compare(const FileNode& left, const FileNode& right)
 {
-	return left.file_name_ > right.file_name_;
+	return left.getName() > right.getName();
 }
 
 bool operator>(const FileNode& left, const FileNode& right)

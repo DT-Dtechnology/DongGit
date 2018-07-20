@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BasicCommandFunction.h"
+#include "FileNode.h"
 #include "Branch.h"
 #include "file_operate.h"
 

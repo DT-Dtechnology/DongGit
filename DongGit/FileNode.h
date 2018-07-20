@@ -32,9 +32,6 @@ public:
 	string getName() const;
 	string getHash() const;
 
-	// 名字的比较
-	friend bool file_name_compare(const FileNode& left, const FileNode& right);
-
 	// 先后关系的判断
 	friend bool operator> (const FileNode& left, const FileNode& right);
 
