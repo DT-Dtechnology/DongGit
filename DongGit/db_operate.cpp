@@ -126,6 +126,7 @@ void Branch_Match_Insert(const string& name, const string& hash)
 
 void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
 {
+	//UNDONE
 	sqlite3* db;
 	int rc;
 	char *zErrMsg = nullptr;
@@ -155,16 +156,20 @@ void Branch_Match_Update(const string& name, const string& hash, const string& p
 
 string Branch_Search_Name(const string& hash)
 {
+	//UNDONE
 }
 
 string Branch_Search_Hash(const string& name)
 {
+	//UNDONE
 }
 
 string File_Search_Name(const string& hash)
 {
+	//UNDONE
 }
 
 string File_Search_Hash(const string& name)
 {
+	//UNDONE
 }
