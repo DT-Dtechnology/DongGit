@@ -16,6 +16,8 @@ void Branch_Match_Insert(const string& name, const string& hash);
 
 void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id);
 
+void Branch_Match_Adddisc(const string& disc,const string& hash);
+
 string Branch_Search_Name(const string& hash);
 
 string Branch_Search_Hash(const string& name);
