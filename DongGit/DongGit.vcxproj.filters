@@ -212,6 +212,9 @@
     <ClCompile Include="file_operate.cpp">
       <Filter>file</Filter>
     </ClCompile>
+    <ClCompile Include="MergeCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log">

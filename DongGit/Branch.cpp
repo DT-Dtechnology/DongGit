@@ -112,6 +112,24 @@ void Branch::reset_branch(const string& name)
 	his_id_ = 0;
 }
 
+auto find_node(NodeVector& node_vector, const string& name)
+{
+	for(auto it = node_vector.begin() ; it!=node_vector.end() ; ++it)
+	{
+		if ((*it).getName() == name)
+			return it;
+	}
+	return node_vector.end();
+}
+
+void Branch::update_file(const string& file_name, const string& new_hash)
+{
+	auto it = find_node(node_vector_, file_name);
+	if (it == node_vector_.end())
+		throw Error("No find such file in this Branch");
+	it->hash_value_ = new_hash;
+}
+
 
 bool operator==(const Branch& left, const Branch& right)
 {

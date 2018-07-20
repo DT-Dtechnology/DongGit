@@ -10,3 +10,8 @@ string get_current_branch()
 	in.close();
 	return name;
 }
+
+void file_conflict(const string& branch1, const string& branch2)
+{
+}
+
