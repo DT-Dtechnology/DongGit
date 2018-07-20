@@ -193,6 +193,7 @@
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="CommitAddCommand.cpp" />
     <ClCompile Include="db_operate.cpp" />
+    <ClCompile Include="DiffCommand.cpp" />
     <ClCompile Include="file_operate.cpp" />
     <ClCompile Include="Init.cpp" />
     <ClCompile Include="DongGit.cpp" />

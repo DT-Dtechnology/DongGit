@@ -32,4 +32,13 @@ void merge_command(const string& from_branch, const string& to_branch)
 	{
 		branch_to.update_file(it.getName(), it.getHash());
 	}
+	
+	// 文件写入
+	branch_to.write();
+
+	// 更新到数据库中
+	DB_OP::Branch_Match_Insert(branch_to);
+
+	// TODO:Scott
+	// TODO:工作区更新，这个直接写成一个函数在file_operate中，用到次数还是很多的
 }

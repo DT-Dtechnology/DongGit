@@ -215,6 +215,9 @@
     <ClCompile Include="MergeCommand.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="DiffCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.log">
