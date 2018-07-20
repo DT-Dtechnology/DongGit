@@ -90,14 +90,16 @@ string DB_OP::get_File_Hash(const string& name)
 
 		else
 		{
-			fprintf(stdout, "Update Successfully");
+			if (hash == nullptr) fprintf(stdout, "##ERROR_NO_SUCH_FILE###");
+			else fprintf(stdout, "Find Successfully");
 		}
 		sqlite3_close(db);
 	}
 	else
 	{
-		fprintf(stdout, "###ERROR_NO_SUCH_FILE###");
+		fprintf(stdout, "###ERROR_OPEN_DATABASE###");
 	}
+	
 	return std::to_string(*hash);
 }
 
@@ -123,7 +125,8 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 
 		else
 		{
-			fprintf(stdout, "Update Successfully");
+			if (prehash == nullptr) fprintf(stdout, "##ERROR_NO_SUCH_FILE###");
+			else fprintf(stdout, "Find Successfully");
 		}
 		sqlite3_close(db);
 	}
