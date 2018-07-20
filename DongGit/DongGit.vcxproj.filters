@@ -102,15 +102,6 @@
     <ClInclude Include="LogControl.h">
       <Filter>log</Filter>
     </ClInclude>
-    <ClInclude Include="FileFinder.h">
-      <Filter>file</Filter>
-    </ClInclude>
-    <ClInclude Include="FileWriter.h">
-      <Filter>file</Filter>
-    </ClInclude>
-    <ClInclude Include="FileReader.h">
-      <Filter>file</Filter>
-    </ClInclude>
     <ClInclude Include="BranchFactory.h">
       <Filter>structure</Filter>
     </ClInclude>
