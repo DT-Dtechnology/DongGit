@@ -4,7 +4,7 @@
 #include "db_operate.h"
 #include "DefineSetting.h"
 
-void dbop::File_Match_Insert(const string& name, const string& hash)
+void DB_OP::File_Match_Insert(const string& name, const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -34,7 +34,7 @@ void dbop::File_Match_Insert(const string& name, const string& hash)
 
 }
 
-void dbop::File_Match_Update(const string& name, const string& hash, const string& pre_hash)
+void DB_OP::File_Match_Update(const string& name, const string& hash, const string& pre_hash)
 {
 	sqlite3* db;
 	int rc;
@@ -64,7 +64,7 @@ void dbop::File_Match_Update(const string& name, const string& hash, const strin
 }
 
 
-void dbop::Branch_Match_Adddisc(const string& disc,const string& hash)
+void DB_OP::Branch_Match_Adddisc(const string& disc,const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -95,7 +95,7 @@ void dbop::Branch_Match_Adddisc(const string& disc,const string& hash)
 }
 
 
-void dbop::Branch_Match_Insert(const string& name, const string& hash)
+void DB_OP::Branch_Match_Insert(const string& name, const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -124,7 +124,7 @@ void dbop::Branch_Match_Insert(const string& name, const string& hash)
 	}
 }
 
-void dbop::Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
+void DB_OP::Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
 {
 	//UNDONE
 	sqlite3* db;
@@ -154,22 +154,22 @@ void dbop::Branch_Match_Update(const string& name, const string& hash, const str
 	}
 }
 
-string dbop::Branch_Search_Name(const string& hash)
+string DB_OP::Branch_Search_Name(const string& hash)
 {
 	//UNDONE
 }
 
-string dbop::Branch_Search_Hash(const string& name)
+string DB_OP::Branch_Search_Hash(const string& name)
 {
 	//UNDONE
 }
 
-string dbop::File_Search_Name(const string& hash)
+string DB_OP::File_Search_Name(const string& hash)
 {
 	//UNDONE
 }
 
-string dbop::File_Search_Hash(const string& name)
+string DB_OP::File_Search_Hash(const string& name)
 {
 	//UNDONE
 }

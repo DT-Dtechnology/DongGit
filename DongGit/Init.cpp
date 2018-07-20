@@ -89,15 +89,16 @@ void init_db()
 void create_master()
 {
 	ofstream out;
-	
-	// TODO:向数据中的Branch数据表中添加新的对应
-
-	out << "master" << " " << NONE_FILE_HASH << endl;
-	out.close();
 
 	out.open(CURRENT_BRANCH);
 	out << "master" << endl;
 	out.close();
+	Branch master;
+	
+	// 向数据中的Branch数据表中添加新的对应
+
+
+	
 
 	_mkdir(".git/ref/master");
 

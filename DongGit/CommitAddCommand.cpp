@@ -11,20 +11,26 @@ void commit_add_command(const string& file_name)
 	ofstream out;
 	ifstream in;
 	
-	// TODO:查找文件名对应Hash，确定前继节点
+	// 查找文件名对应Hash，确定前继节点
+	string hash = DB_OP::get_File_Hash(file_name);
 	
-	// TODO:判断Hash值是否相同，相同直接返回，无需更改
+	// 判断Hash值是否相同，相同直接返回，无需更改
+	FileNode file(file_name);
+	if(file.getHash() == hash)
+		return;
+	file.setPreNode(hash);
 	
-	// TODO:写入操作，同时更改数据库内容，注意添加前继节点
-	
+	// 写入操作，同时更改数据库内容，注意添加前继节点
+	DB_OP::File_Match_Insert(file);
 
 }
 
 void commit_add_command()
 {
 	// 将所有文件add
-	// TODO:获取工作区下所有文件文件名
 
+	// TODO:Scott
+	// TODO:获取工作区下所有文件文件名
 	// TODO:按照文件名执行commit_add_command(file_name)
 }
 

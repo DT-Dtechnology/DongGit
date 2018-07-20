@@ -72,7 +72,7 @@ bool operator>(const FileNode& left, const FileNode& right)
 			return true;
 		else
 			// 更新前继节点
-			pre = File_Match_Pre(pre);
+			pre = DB_OP::get_File_Pre_Hash(pre);
 	}
 	return false;
 }

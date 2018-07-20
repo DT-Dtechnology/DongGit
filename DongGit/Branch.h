@@ -7,6 +7,8 @@ using std::string;
 
 typedef std::vector<FileNode> NodeVector;
 
+class DB_OP;
+
 /**
  * \brief 记录分支的基本信息，包含自身整体Hash值，自身名字，自身的FileNode的vector
  * 要求插入时按照字典序添加，注意要保留已经删除的节点信息，为了方便后续还原操作
@@ -39,6 +41,7 @@ public:
 	void update();
 	void addFile(const FileNode& file);
 	void insert();
+	void set_start(const string& new_name);
 	NodeVector& getNodeVector();
 
 	void reset_branch(const string& name);
@@ -48,5 +51,7 @@ public:
 
 	// 判断分支是否更新
 	friend bool operator>=(const Branch& left, const Branch& right);
+
+	friend DB_OP;
 };
 

@@ -2,6 +2,7 @@
 #include "Branch.h"
 #include "db_operate.h"
 #include <algorithm>
+#include "file_operate.h"
 
 #define BRANCH_TEMP "Branch_Temp"
 
@@ -66,6 +67,9 @@ Branch::Branch(const string& name):branch_name_(name)
 Branch::Branch()
 {
 	// 从当前工作区中获取一个Branch
+	branch_name_ = get_current_branch();
+
+	// TODO:通过读取文件建立Branch，注意节点排序
 }
 
 
@@ -87,6 +91,13 @@ void Branch::insert()
 	get_hash();
 
 	// TODO:向数据库中添加信息
+}
+
+void Branch::set_start(const string& new_name)
+{
+	branch_name_ = new_name;
+	his_id_ = 0;
+	pre_branch_ = NONE_FILE_HASH;
 }
 
 inline NodeVector& Branch::getNodeVector()

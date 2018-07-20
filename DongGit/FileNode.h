@@ -9,6 +9,7 @@
 using std::string;
 
 class Branch;
+class DB_OP;
 
 class FileNode
 {
@@ -36,6 +37,8 @@ public:
 
 	// 先后关系的判断
 	friend bool operator> (const FileNode& left, const FileNode& right);
+
+	friend DB_OP;
 };
 
 bool file_name_compare(const FileNode& left, const FileNode& right);
