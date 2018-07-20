@@ -1,18 +1,14 @@
 #include "stdafx.h"
 #include "BasicCommandFunction.h"
 #include "Branch.h"
-#include <sstream>
+#include "file_operate.h"
 
 bool uncommited_change()
 {
-	Branch current;
-	Branch past;
-
-	// TODO:利用past的NodeVector建立Map，然后利用该Map判断current是否有更新
-
-	// TODO:更新检测先判断长度，之后逐项判断；如果有更新，则返回false
-
-	return false;
+	const Branch past(get_current_branch());
+	const Branch current;
+	
+	return current == past;
 }
 
 void refresh_file(const string& branch_name)

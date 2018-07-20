@@ -24,7 +24,11 @@ class Branch
 
 public:
 
+	// 基于Branch_Name建立Branch
 	Branch(const string& hash_value);
+
+	// 基于工作区建立Branch
+	Branch();
 
 	/**
 	 * \brief 用于记录分支信息，包含Head指向位置，以及文件的历史沿革，不记录文件，仅保留Hash

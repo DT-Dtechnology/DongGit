@@ -12,7 +12,7 @@ void commit_add_command(const string& file_name)
 	ifstream in;
 	
 	// TODO:查找文件名对应Hash，确定前继节点
-
+	
 	// TODO:判断Hash值是否相同，相同直接返回，无需更改
 	
 	// TODO:写入操作，同时更改数据库内容，注意添加前继节点

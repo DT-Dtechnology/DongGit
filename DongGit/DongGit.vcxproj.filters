@@ -147,6 +147,9 @@
     <ClInclude Include="CommitAddCommand.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="file_operate.h">
+      <Filter>file</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -205,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="BranchCommand.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="file_operate.cpp">
+      <Filter>file</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

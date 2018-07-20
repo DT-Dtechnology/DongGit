@@ -63,6 +63,11 @@ Branch::Branch(const string& name):branch_name_(name)
 	get_hash();
 }
 
+Branch::Branch()
+{
+	// 从当前工作区中获取一个Branch
+}
+
 
 void Branch::update()
 {

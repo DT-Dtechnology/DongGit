@@ -158,6 +158,7 @@
     <ClInclude Include="CommitAddCommand.h" />
     <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="db_operate.h" />
+    <ClInclude Include="file_operate.h" />
     <ClInclude Include="Init.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="CommandSwitcher.cpp" />
     <ClCompile Include="CommitAddCommand.cpp" />
     <ClCompile Include="db_operate.cpp" />
+    <ClCompile Include="file_operate.cpp" />
     <ClCompile Include="Init.cpp" />
     <ClCompile Include="DongGit.cpp" />
     <ClCompile Include="FileNode.cpp" />

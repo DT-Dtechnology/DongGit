@@ -1,12 +1,7 @@
 #include "stdafx.h"
 #include "FileNode.h"
 #include "md5_wrapper.h"
-#include <sstream>
 #include "db_operate.h"
-
-#define FILE_TEMP "File_Temp"
-
-// TODO:如何获取前继节点信息，可以尝试利用数据库
 
 void FileNode::get_hash()
 {
