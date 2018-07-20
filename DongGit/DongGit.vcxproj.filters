@@ -156,6 +156,9 @@
     <ClInclude Include="CommitAddCommand.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="get_file_name.h">
+      <Filter>file</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

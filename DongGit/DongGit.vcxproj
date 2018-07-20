@@ -158,6 +158,7 @@
     <ClInclude Include="CommitAddCommand.h" />
     <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="db_operate.h" />
+    <ClInclude Include="get_file_name.h" />
     <ClInclude Include="Init.h" />
     <ClInclude Include="DiffCommand.h" />
     <ClInclude Include="DropCommand.h" />
