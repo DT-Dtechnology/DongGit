@@ -4,7 +4,7 @@
 #include "db_operate.h"
 #include "DefineSetting.h"
 
-void File_Match_Insert(const string& name, const string& hash)
+void dbop::File_Match_Insert(const string& name, const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -34,7 +34,7 @@ void File_Match_Insert(const string& name, const string& hash)
 
 }
 
-void File_Match_Update(const string& name, const string& hash, const string& pre_hash)
+void dbop::File_Match_Update(const string& name, const string& hash, const string& pre_hash)
 {
 	sqlite3* db;
 	int rc;
@@ -64,7 +64,7 @@ void File_Match_Update(const string& name, const string& hash, const string& pre
 }
 
 
-void Branch_Match_Adddisc(const string& disc,const string& hash)
+void dbop::Branch_Match_Adddisc(const string& disc,const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -95,7 +95,7 @@ void Branch_Match_Adddisc(const string& disc,const string& hash)
 }
 
 
-void Branch_Match_Insert(const string& name, const string& hash)
+void dbop::Branch_Match_Insert(const string& name, const string& hash)
 {
 	sqlite3* db;
 	int rc;
@@ -104,7 +104,7 @@ void Branch_Match_Insert(const string& name, const string& hash)
 	rc = sqlite3_open(INFO_DB, &db);
 	if (rc)
 	{
-		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH+ "',0,NULL";
+		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH+ "',0,NULL)";
 		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
@@ -124,7 +124,7 @@ void Branch_Match_Insert(const string& name, const string& hash)
 	}
 }
 
-void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
+void dbop::Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
 {
 	//UNDONE
 	sqlite3* db;
@@ -134,7 +134,7 @@ void Branch_Match_Update(const string& name, const string& hash, const string& p
 	rc = sqlite3_open(INFO_DB, &db);
 	if (rc)
 	{
-		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH + "','";
+		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + pre_hash + "',"+std::to_string(his_id)+",NULL)";
 		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
@@ -154,22 +154,22 @@ void Branch_Match_Update(const string& name, const string& hash, const string& p
 	}
 }
 
-string Branch_Search_Name(const string& hash)
+string dbop::Branch_Search_Name(const string& hash)
 {
 	//UNDONE
 }
 
-string Branch_Search_Hash(const string& name)
+string dbop::Branch_Search_Hash(const string& name)
 {
 	//UNDONE
 }
 
-string File_Search_Name(const string& hash)
+string dbop::File_Search_Name(const string& hash)
 {
 	//UNDONE
 }
 
-string File_Search_Hash(const string& name)
+string dbop::File_Search_Hash(const string& name)
 {
 	//UNDONE
 }
