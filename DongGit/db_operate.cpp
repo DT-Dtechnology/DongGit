@@ -2,6 +2,7 @@
 #include "sqlite3.h"
 #include "callback.h"
 #include "db_operate.h"
+#include "DefineSetting.h"
 
 void File_Match_Insert(const string& name, const string& hash)
 {
@@ -63,8 +64,33 @@ void File_Match_Update(const string& name, const string& hash, const string& pre
 }
 
 
-void Branch_Match_Adddisc(const string& disc)
+void Branch_Match_Adddisc(const string& disc,const string& hash)
 {
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (rc)
+	{
+		string sql = "UPDATE BRANCH_MATCH SET DISC='" + disc + "'WHERE HASH='" + hash + "'" ;
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		else
+		{
+			fprintf(stdout, "Update Successfully");
+		}
+		sqlite3_close(db);
+		return;
+	}
+	else
+	{
+		fprintf(stdout, "###ERROR_OPEN_DATABASE###");
+	}
 
 }
 
@@ -78,7 +104,7 @@ void Branch_Match_Insert(const string& name, const string& hash)
 	rc = sqlite3_open(INFO_DB, &db);
 	if (rc)
 	{
-		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH+ "','"+"";
+		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH+ "',0,NULL";
 		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
@@ -87,7 +113,7 @@ void Branch_Match_Insert(const string& name, const string& hash)
 		}
 		else
 		{
-			fprintf(stdout, "Update Successfully");
+			fprintf(stdout, "Insert Successfully");
 		}
 		sqlite3_close(db);
 		return;
@@ -107,7 +133,7 @@ void Branch_Match_Update(const string& name, const string& hash, const string& p
 	rc = sqlite3_open(INFO_DB, &db);
 	if (rc)
 	{
-		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH + "','" + ;
+		string sql = "INSERT INTO TABLE BRANCH_MATCH VALUES ('" + name + "','" + hash + "','" + NONE_FILE_HASH + "','";
 		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
