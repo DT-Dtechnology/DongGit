@@ -16,3 +16,4 @@
 #include "MergeCommand.h"
 #include "PullCommand.h"
 #include "PushCommand.h"
+#include "CommitAddCommand.h"

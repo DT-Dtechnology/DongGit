@@ -5,8 +5,11 @@
 
 void branch_command()
 {
+	string current = get_current_branch();
+	cout << "Current Branch is: <"<<current <<">" << endl;
 	// TODO:Arthur
 	// TODO:利用数据库实现获取所有分支名称的指令
+
 }
 
 void branch_command(const string& to_branch)

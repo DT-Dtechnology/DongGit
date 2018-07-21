@@ -55,7 +55,7 @@ void init_db()
 	auto sql = "CREATE TABLE BRANCH_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
 		"HASH TEXT NOT NULL,"		\
-		"PRE_HASH TEXT NOT NULL"	\
+		"PRE_HASH TEXT NOT NULL,"	\
 		"HIS_ID INTEGER,"\
 		"DISC	TEXT)";
 

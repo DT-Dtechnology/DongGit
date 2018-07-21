@@ -2,6 +2,7 @@
 
 #define CURRENT_BRANCH ".git\\status\\Current_Branch"
 #define GIT_HEAD ".git\\"
+#define GIT_REF ".git\\ref\\"
 
 #define INFO_DB ".git\\db\\Infodb.db"
 

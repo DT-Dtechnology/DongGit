@@ -5,7 +5,7 @@
 
 void checkout_command(const string& branch_name)
 {
-	string path_name = GIT_HEAD + branch_name;
+	string path_name = GIT_REF + branch_name;
 	if (_access(path_name.c_str(), 0) != -1)
 	{
 		// 判断是否存在未提交更改
