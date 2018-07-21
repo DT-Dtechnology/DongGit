@@ -24,8 +24,6 @@ public:
 	static string get_File_Pre_Hash(const string& hash);
 
 	static string get_Branch_Hash(const string& name);
-	static string get_Branch_Pre_Hash(const string& name);
-	static int get_Branch_His_id(const string& name);
 
 	//---------------------------------------------------
 

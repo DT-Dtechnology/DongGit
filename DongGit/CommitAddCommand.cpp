@@ -52,7 +52,6 @@ void branch_refresh(int argc, const char* argv[] )
 	branch.update_his();
 
 	branch.write();
-	
 	DB_OP::Branch_Match_Insert(branch);
 }
 

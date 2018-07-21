@@ -23,6 +23,9 @@ void Branch::write()
 
 	// TODO:Scott 
 	// TODO:更新ref中信息
+	out.open(GIT_REF + branch_name_);
+	out << hash_value_;
+	out.close();
 }
 
 void Branch::get_hash()

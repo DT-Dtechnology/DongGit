@@ -97,10 +97,10 @@ void create_master()
 	
 	// 向数据中的Branch数据表中添加新的对应
 
-
-	
-
-	_mkdir(".git/ref/master");
+	_mkdir(".git/ref");
+	out.open(GIT_REF + string("master"));
+	out << NONE_FILE_HASH;
+	out.close();
 
 	// Write Log 
 
