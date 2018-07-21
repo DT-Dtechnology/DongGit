@@ -36,7 +36,7 @@ void CommandSwitcher(int argc, const char* argv[])
 				throw Error("No paraments.");
 			else
 			{
-				for(auto it = 3 ; it <= argc ; ++it)
+				for(auto it = 2 ; it <= argc ; ++it)
 				{
 					commit_add_command(argv[it]);
 				}
@@ -48,9 +48,9 @@ void CommandSwitcher(int argc, const char* argv[])
 			if (argc == 2)
 				branch_command();
 			else if (argc == 3)
-				branch_command(argv[3]);
+				branch_command(argv[2]);
 			else if (argc == 4)
-				branch_command(argv[3], argv[4]);
+				branch_command(argv[2], argv[3]);
 			else
 				throw Error("More than needed");
 		}
@@ -58,7 +58,7 @@ void CommandSwitcher(int argc, const char* argv[])
 		{
 			cout << "checkout" << endl;
 			if (argc == 3)
-				checkout_command(argv[3]);
+				checkout_command(argv[2]);
 			else
 				throw Error("More than needed");
 		}
@@ -78,9 +78,9 @@ void CommandSwitcher(int argc, const char* argv[])
 		{
 			cout << "merge" << endl;
 			if (argc == 3)
-				merge_command(argv[3]);
+				merge_command(argv[2]);
 			else if (argc == 4)
-				merge_command(argv[3], argv[4]);
+				merge_command(argv[2], argv[3]);
 			else
 				throw Error("More than needed");
 		}
@@ -88,9 +88,9 @@ void CommandSwitcher(int argc, const char* argv[])
 		{
 			cout << "diff" << endl;
 			if (argc == 3)
-				diff_command(argv[3]);
+				diff_command(argv[2]);
 			else if (argc == 4)
-				diff_command(argv[3], argv[4]);
+				diff_command(argv[2], argv[3]);
 			else
 				throw Error("More than needed");
 		}
