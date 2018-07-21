@@ -4,8 +4,30 @@
 #include "db_operate.h"
 #include "DefineSetting.h"
 
+void DB_OP::Print_All_Branch()
+{
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
 
-
+	rc = sqlite3_open(INFO_DB, &db);
+	if (rc)
+	{
+		string sql = "SELECT * FROM BRANCH_MATCH";
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		sqlite3_close(db);
+		return;
+	}
+	else
+	{
+		fprintf(stdout, "###ERROR_OPEN_DATABASE###");
+	}
+}
 
 void DB_OP::File_Match_Insert(const FileNode& file)
 {

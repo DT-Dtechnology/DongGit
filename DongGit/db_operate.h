@@ -12,6 +12,10 @@ using std::string;
 class DB_OP //数据库操作类
 {
 public:
+	//test func
+	static void Print_All_Branch();
+
+	//---------------------------------------------------
 	static void File_Match_Insert(const FileNode& file);
 	static void Branch_Match_Insert(const Branch& branch);
 
