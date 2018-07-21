@@ -21,8 +21,7 @@ void Branch::write()
 		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
 
-	// TODO:Scott 
-	// TODO:更新ref中信息
+	// 更新ref中信息
 	out.open(GIT_REF + branch_name_);
 	out << hash_value_;
 	out.close();

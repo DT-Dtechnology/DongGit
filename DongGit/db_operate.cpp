@@ -92,7 +92,7 @@ void DB_OP::Branch_Match_Insert(const Branch& branch)
 	rc = sqlite3_open(INFO_DB, &db);
 	if (! rc)
 	{
-		string sql = "INSERT INTO BRANCH_MATCH VALUES ('" + branch.branch_name_ + "','" +branch.hash_value_+ "','" + branch.pre_branch_ + "','" + std::to_string(branch.his_id_) + "',NULL)";
+		string sql = "INSERT INTO BRANCH_MATCH VALUES ('" + branch.branch_name_ + "','" +branch.hash_value_+ "','" + branch.pre_branch_  + "',NULL)";
 		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{

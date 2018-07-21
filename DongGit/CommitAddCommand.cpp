@@ -49,7 +49,6 @@ void branch_refresh(int argc, const char* argv[] )
 	branch.get_hash();
 	if(branch.getHash() == branch.getPre())
 		return;
-	branch.update_his();
 
 	branch.write();
 	DB_OP::Branch_Match_Insert(branch);

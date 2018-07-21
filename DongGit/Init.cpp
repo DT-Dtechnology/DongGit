@@ -56,7 +56,6 @@ void init_db()
 		"NAME TEXT NOT NULL,"		\
 		"HASH TEXT NOT NULL,"		\
 		"PRE_HASH TEXT NOT NULL,"	\
-		"HIS_ID INTEGER,"\
 		"DISC	TEXT)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
