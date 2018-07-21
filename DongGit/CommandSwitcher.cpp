@@ -36,7 +36,7 @@ void CommandSwitcher(int argc, const char* argv[])
 				throw Error("No paraments.");
 			else
 			{
-				for(auto it = 2 ; it <= argc ; ++it)
+				for (auto it = 2; it <= argc; ++it)
 				{
 					commit_add_command(argv[it]);
 				}
@@ -101,6 +101,11 @@ void CommandSwitcher(int argc, const char* argv[])
 		else if (instruct == "pull")
 		{
 
+		}
+		else if (instruct == "show")
+		{
+			DB_OP::Print_All_Branch();
+			DB_OP::Print_All_File();
 		}
 		else
 			throw Error("No such an instruction.");

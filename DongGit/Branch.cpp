@@ -130,6 +130,14 @@ void Branch::update_file(const string& file_name, const string& new_hash)
 	it->hash_value_ = new_hash;
 }
 
+string Branch::get_file_hash(const string& file_name)
+{
+	auto it = find_node(node_vector_, file_name);
+	if (it == node_vector_.end())
+		return NONE_FILE_HASH;
+	return it->getHash();
+}
+
 
 bool operator==(const Branch& left, const Branch& right)
 {

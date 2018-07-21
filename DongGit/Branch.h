@@ -49,6 +49,8 @@ public:
 	// 更新节点信息
 	void update_file(const string& file_name, const string& new_hash);
 
+	string get_file_hash(const string& file_name);
+
 	// 判断分支是否相同
 	friend bool operator==(const Branch& left, const Branch& right);
 

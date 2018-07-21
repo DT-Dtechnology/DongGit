@@ -14,6 +14,7 @@ class DB_OP //数据库操作类
 public:
 	//test func
 	static void Print_All_Branch();
+	static void Print_All_File();
 
 	//---------------------------------------------------
 	static void File_Match_Insert(const FileNode& file);
@@ -22,26 +23,9 @@ public:
 	static string get_File_Hash(const string& name);
 	static string get_File_Pre_Hash(const string& hash);
 
+	static string get_Branch_Hash(const string& name);
+
 	//---------------------------------------------------
 
-	static void File_Match_Insert(const string& name, const string& hash);
-
-	static void File_Match_Update(const string& name, const string& hash, const string& pre_hash);
-	
-	
-	static void Branch_Match_Insert(const string& name, const string& hash);
-
-	static void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id);
-
-	static void Branch_Match_Adddisc(const string& disc, const string& hash);
-
-	
-	static string Branch_Search_Name(const string& hash);
-	
-	static string Branch_Search_Hash(const string& name);
-
-	static string File_Search_Name(const string& hash);
-	
-	static string File_Search_Hash(const string& name);
 
 };

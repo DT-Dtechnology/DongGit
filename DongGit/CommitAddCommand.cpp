@@ -12,11 +12,11 @@ void commit_add_command(const string& file_name)
 	ifstream in;
 	
 	// 查找文件名对应Hash，确定前继节点
-	const string hash = DB_OP::get_File_Hash(file_name);
+	const string hash = get_branch_file_hash();
 	
 	// 判断Hash值是否相同，相同直接返回，无需更改
 	FileNode file(file_name);
-	cout << file.getHash();
+
 	if(file.getHash() == hash)
 		return;
 	file.setPreNode(hash);

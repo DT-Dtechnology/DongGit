@@ -12,6 +12,7 @@ void FileNode::get_hash()
 FileNode::FileNode(const string& file_name):file_name_(file_name)
 {
 	get_hash();
+	pre_file_ = NONE_FILE_HASH;
 }
 
 FileNode::FileNode(const string& file_name, const string& file_hash)
