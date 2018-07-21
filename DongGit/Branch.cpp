@@ -99,21 +99,10 @@ void Branch::insert()
 	// TODO:向数据库中添加信息
 }
 
-void Branch::set_pre(const string& pre)
-{
-	pre_branch_ = pre;
-}
-
-void Branch::update_his()
-{
-	his_id_++;
-}
-
 
 void Branch::set_start(const string& new_name)
 {
 	branch_name_ = new_name;
-	his_id_ = 0;
 	pre_branch_ = NONE_FILE_HASH;
 }
 
@@ -136,7 +125,6 @@ void Branch::reset_branch(const string& name)
 {
 	branch_name_ = name;
 	pre_branch_ = NONE_FILE_HASH;
-	his_id_ = 0;
 }
 
 auto find_node(NodeVector& node_vector, const string& name)

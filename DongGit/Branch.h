@@ -20,7 +20,6 @@ class Branch
 	string hash_value_;
 	NodeVector node_vector_{};
 	string pre_branch_ = NONE_FILE_HASH;
-	int his_id_ = 0;
 
 	void sort_file();
 
@@ -42,8 +41,6 @@ public:
 	void update();
 	void addFile(const FileNode& file);
 	void insert();
-	void set_pre(const string& pre);
-	void update_his();
 	void set_start(const string& new_name);
 	
 	string getPre() const;

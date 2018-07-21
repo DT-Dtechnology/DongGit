@@ -97,7 +97,7 @@ void create_master()
 	
 	// 向数据中的Branch数据表中添加新的对应
 
-	_mkdir(".git/ref");
+	_mkdir(GIT_REF);
 	out.open(GIT_REF + string("master"));
 	out << NONE_FILE_HASH;
 	out.close();
@@ -118,6 +118,6 @@ void initial_all()
 void initial_all(const std::string& path)
 {
 	string cmd = "cd " + path;
-	system("cmd");
+	system(cmd.c_str());
 	initial_all();
 }
