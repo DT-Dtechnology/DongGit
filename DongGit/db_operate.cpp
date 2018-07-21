@@ -190,6 +190,43 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 	return std::to_string(*prehash);
 }
 
+string DB_OP::get_Branch_Hash(const string& name)
+{
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+	char *hash = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (!rc)
+	{
+		string sql = "SELECT HASH FROM BRANCH_MATCH WHERE NAME='" + name + "'";
+		rc = sqlite3_exec(db, sql.c_str(), callback, hash, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+
+		else
+		{
+			if (hash == nullptr)
+			{
+				fprintf(stdout, "No such File.\n");
+				return NONE_FILE_HASH;
+			}
+			else fprintf(stdout, "Find Successfully");
+		}
+		sqlite3_close(db);
+	}
+	else
+	{
+		throw Error("###ERROR_OPEN_DATABASE###");
+	}
+
+	return std::to_string(*hash);
+}
+
 
 //---------------------------------------------------------------------
 

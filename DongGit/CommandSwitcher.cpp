@@ -36,10 +36,11 @@ void CommandSwitcher(int argc, const char* argv[])
 				throw Error("No paraments.");
 			else
 			{
-				for (auto it = 2; it <= argc; ++it)
+				for (auto it = 2; it < argc; ++it)
 				{
 					commit_add_command(argv[it]);
 				}
+				branch_refresh(argc, argv);
 			}
 		}
 		else if (instruct == "branch")

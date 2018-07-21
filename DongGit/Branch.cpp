@@ -20,6 +20,9 @@ void Branch::write()
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
 		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
+
+	// TODO:Scott 
+	// TODO:更新ref中信息
 }
 
 void Branch::get_hash()
@@ -93,11 +96,32 @@ void Branch::insert()
 	// TODO:向数据库中添加信息
 }
 
+void Branch::set_pre(const string& pre)
+{
+	pre_branch_ = pre;
+}
+
+void Branch::update_his()
+{
+	his_id_++;
+}
+
+
 void Branch::set_start(const string& new_name)
 {
 	branch_name_ = new_name;
 	his_id_ = 0;
 	pre_branch_ = NONE_FILE_HASH;
+}
+
+string Branch::getPre() const
+{
+	return pre_branch_;
+}
+
+string Branch::getHash() const
+{
+	return hash_value_;
 }
 
 NodeVector& Branch::getNodeVector()
@@ -126,7 +150,10 @@ void Branch::update_file(const string& file_name, const string& new_hash)
 {
 	auto it = find_node(node_vector_, file_name);
 	if (it == node_vector_.end())
-		throw Error("No find such file in this Branch");
+	{
+		node_vector_.push_back(FileNode(file_name, new_hash));
+		return;
+	}
 	it->hash_value_ = new_hash;
 }
 

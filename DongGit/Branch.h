@@ -2,6 +2,7 @@
 #include <string>
 #include <vector> 
 #include "FileNode.h"
+#include "DefineSetting.h"
 
 using std::string;
 
@@ -18,10 +19,9 @@ class Branch
 	string branch_name_;
 	string hash_value_;
 	NodeVector node_vector_{};
-	string pre_branch_;
-	int his_id_;
+	string pre_branch_ = NONE_FILE_HASH;
+	int his_id_ = 0;
 
-	void get_hash();
 	void sort_file();
 
 public:
@@ -37,11 +37,17 @@ public:
 	 * 分支本身为横向结构，文件版本为纵向结构。
 	 * 分支串接的所有文件需要进行整体Hash
 	 */
+	void get_hash();
 	void write();
 	void update();
 	void addFile(const FileNode& file);
 	void insert();
+	void set_pre(const string& pre);
+	void update_his();
 	void set_start(const string& new_name);
+	
+	string getPre() const;
+	string getHash() const;
 	NodeVector& getNodeVector();
 
 	void reset_branch(const string& name);
