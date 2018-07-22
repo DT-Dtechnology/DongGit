@@ -21,6 +21,7 @@ void commit_add_command(const string& file_name)
 	if(file.getHash() == hash)
 		return;
 	file.setPreNode(hash);
+	file.write();
 	
 	// 写入操作，同时更改数据库内容，注意添加前继节点
 	DB_OP::File_Match_Insert(file);
