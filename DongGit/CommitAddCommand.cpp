@@ -13,10 +13,11 @@ void commit_add_command(const string& file_name)
 	
 	// 查找文件名对应Hash，确定前继节点
 	const string hash = get_branch_file_hash(get_current_branch(), file_name);
-	
+	cout << "Old Hash:" << hash << endl;
 	// 判断Hash值是否相同，相同直接返回，无需更改
 	FileNode file(file_name);
-
+	
+	cout << "New Hash:" << file.getHash() << endl;
 	if(file.getHash() == hash)
 		return;
 	file.setPreNode(hash);

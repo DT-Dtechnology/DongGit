@@ -18,7 +18,7 @@ void Branch::write()
 
 	out.open(GIT_OBJECT_HEAD + hash_value_);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
-		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
+		out << (*it).file_name_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
 
 	// 更新ref中信息
@@ -34,7 +34,7 @@ void Branch::get_hash()
 	ofstream out;
 	out.open(BRANCH_TEMP);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
-		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
+		out << (*it).file_name_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
 
 	md5wrapper md5;
