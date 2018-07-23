@@ -33,7 +33,10 @@ void CommandSwitcher(int argc, const char* argv[])
 		{
 			cout << "commit-add" << endl;
 			if (argc == 2)
-				throw Error("No paraments.");
+			{
+				commit_add_command_test();
+				commit_add_command();
+			}
 			else
 			{
 				for (auto it = 2; it < argc; ++it)
