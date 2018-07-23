@@ -45,6 +45,8 @@ void commit_add_command()
 		(*i) = (*i).substr(path.length());
 	delete buf;
 	// TODO:按照文件名执行commit_add_command(file_name)
+	for (auto i = file_name.begin(); i != file_name.end(); i++)
+		commit_add_command((*i));
 }
 
 void branch_refresh(int argc, const char* argv[] )
