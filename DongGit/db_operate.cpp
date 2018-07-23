@@ -121,12 +121,14 @@ string DB_OP::get_File_Hash(const string& name)
 	int rc;
 	char *zErrMsg = nullptr;
 	char *hash = nullptr;
-
+	char** pResult;
+	int nRow;
+	int nCol;
 	rc = sqlite3_open(INFO_DB, &db);
 	if (! rc)
 	{
 		string sql = "SELECT HASH FROM FILE_MATCH WHERE NAME='"+name+"'";
-		rc = sqlite3_exec(db, sql.c_str(), callback, hash, &zErrMsg);
+		rc = sqlite3_get_table(db, sql.c_str(),&pResult,&nRow,&nCol,&zErrMsg);
 		if (rc != SQLITE_OK)
 		{
 			fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -135,7 +137,7 @@ string DB_OP::get_File_Hash(const string& name)
 
 		else
 		{
-			if (hash == nullptr)
+			if (!pResult[1])
 			{
 				fprintf(stdout, "No such File.\n");
 				return NONE_FILE_HASH;
@@ -149,7 +151,7 @@ string DB_OP::get_File_Hash(const string& name)
 		throw Error("###ERROR_OPEN_DATABASE###");
 	}
 	
-	return std::to_string(*hash);
+	return std::to_string(*pResult[1]);
 }
 
 
@@ -160,12 +162,14 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 	int rc;
 	char *zErrMsg = nullptr;
 	char *prehash = nullptr;
-
+	char** pResult;
+	int nRow;
+	int nCol;
 	rc = sqlite3_open(INFO_DB, &db);
 	if (! rc)
 	{
 		string sql = "SELECT PRE_HASH FROM FILE_MATCH WHERE HASH='" + hash + "'";
-		rc = sqlite3_exec(db, sql.c_str(), callback, prehash, &zErrMsg);
+		rc = sqlite3_get_table(db, sql.c_str(), &pResult, &nRow, &nCol, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
 			fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -174,7 +178,7 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 
 		else
 		{
-			if (prehash == nullptr)
+			if (!pResult[1])
 			{
 				fprintf(stdout, "No such File.\n");
 				return NONE_FILE_HASH;
@@ -185,9 +189,9 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 	}
 	else
 	{
-		fprintf(stdout, "###ERROR_NO_SUCH_FILE###");
+		fprintf(stdout, "###ERROR_OPEN_DATABASE###");
 	}
-	return std::to_string(*prehash);
+	return std::to_string(*pResult[1]);
 }
 
 string DB_OP::get_Branch_Hash(const string& name)
@@ -196,12 +200,15 @@ string DB_OP::get_Branch_Hash(const string& name)
 	int rc;
 	char *zErrMsg = nullptr;
 	char *hash = nullptr;
+	char** pResult;
+	int nRow;
+	int nCol;
 
 	rc = sqlite3_open(INFO_DB, &db);
 	if (!rc)
 	{
 		string sql = "SELECT HASH FROM BRANCH_MATCH WHERE NAME='" + name + "'";
-		rc = sqlite3_exec(db, sql.c_str(), callback, hash, &zErrMsg);
+		rc = sqlite3_get_table(db, sql.c_str(), &pResult, &nRow, &nCol, &zErrMsg);
 		if (rc != SQLITE_OK)
 		{
 			fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -210,12 +217,17 @@ string DB_OP::get_Branch_Hash(const string& name)
 
 		else
 		{
-			if (hash == nullptr)
+			if (!pResult[1])
 			{
-				fprintf(stdout, "No such File.\n");
+				fprintf(stdout, "No such Branch.\n");
 				return NONE_FILE_HASH;
 			}
-			else fprintf(stdout, "Find Successfully");
+			else
+			{
+				cout << "FOUND:" << pResult[1] << endl;
+				fprintf(stdout, "Find Successfully");
+			}
+				
 		}
 		sqlite3_close(db);
 	}
@@ -224,7 +236,7 @@ string DB_OP::get_Branch_Hash(const string& name)
 		throw Error("###ERROR_OPEN_DATABASE###");
 	}
 
-	return std::to_string(*hash);
+	return std::to_string(*pResult[1]);
 }
 
 
