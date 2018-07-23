@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CommitAddCommand.h"
+#include "file_operate.h"
 
 void commit_add_command(const string& file_name)
 {
@@ -34,7 +35,33 @@ void commit_add_command()
 
 	// TODO:Scott
 	// TODO:获取工作区下所有文件文件名
+	vector<string> file_name;
+	char *buf = new char[1000];
+	int i = 1000;
+	GetCurrentDirectory(1000, buf);
+	string path = buf;
+	get_file_name(path, file_name);
+	for (auto i = file_name.begin(); i != file_name.end(); i++)
+		(*i) = (*i).substr(path.length());
+	delete buf;
 	// TODO:按照文件名执行commit_add_command(file_name)
+	for (auto i = file_name.begin(); i != file_name.end(); i++)
+		commit_add_command((*i));
+}
+
+void commit_add_command_test()
+{
+	commit_add_command();
+	vector<string> file_name;
+	char *buf = new char[1000];
+	int i = 1000;
+	GetCurrentDirectory(1000, buf);
+	string path = buf;
+	get_file_name(path, file_name);
+	for (auto i = file_name.begin(); i != file_name.end(); i++)
+		(*i) = (*i).substr(path.length());
+	for (auto i = file_name.begin(); i != file_name.end(); i++)
+		cout << (*i) << endl;
 }
 
 void branch_refresh(int argc, const char* argv[] )
