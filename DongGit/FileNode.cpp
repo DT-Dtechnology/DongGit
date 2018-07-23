@@ -1,12 +1,7 @@
 #include "stdafx.h"
 #include "FileNode.h"
 #include "md5_wrapper.h"
-#include <sstream>
 #include "db_operate.h"
-
-#define FILE_TEMP "File_Temp"
-
-// TODO:如何获取前继节点信息，可以尝试利用数据库
 
 void FileNode::get_hash()
 {
@@ -17,12 +12,13 @@ void FileNode::get_hash()
 FileNode::FileNode(const string& file_name):file_name_(file_name)
 {
 	get_hash();
+	pre_file_ = NONE_FILE_HASH;
 }
 
 FileNode::FileNode(const string& file_name, const string& file_hash)
 	:file_name_(file_name), hash_value_(file_hash) { }
 
-inline void FileNode::setPreNode(const string& hash_value)
+void FileNode::setPreNode(const string& hash_value)
 {
 	pre_file_ = hash_value;
 }
@@ -55,14 +51,14 @@ inline string FileNode::getName() const
 	return file_name_;
 }
 
-inline string FileNode::getHash() const
+string FileNode::getHash() const
 {
 	return hash_value_;
 }
 
-inline bool file_name_compare(const FileNode& left, const FileNode& right)
+bool file_name_compare(const FileNode& left, const FileNode& right)
 {
-	return left.file_name_ > right.file_name_;
+	return left.getName() > right.getName();
 }
 
 bool operator>(const FileNode& left, const FileNode& right)
@@ -77,7 +73,7 @@ bool operator>(const FileNode& left, const FileNode& right)
 			return true;
 		else
 			// 更新前继节点
-			pre = File_Match_Pre(pre);
+			pre = DB_OP::get_File_Pre_Hash(pre);
 	}
 	return false;
 }

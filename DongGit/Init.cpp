@@ -55,8 +55,7 @@ void init_db()
 	auto sql = "CREATE TABLE BRANCH_MATCH("  \
 		"NAME TEXT NOT NULL,"		\
 		"HASH TEXT NOT NULL,"		\
-		"PRE_HASH TEXT NOT NULL"	\
-		"HIS_ID INTEGER,"\
+		"PRE_HASH TEXT NOT NULL,"	\
 		"DISC	TEXT)";
 
 	rc = sqlite3_exec(db, sql, callback, nullptr, &zErrMsg);
@@ -89,17 +88,18 @@ void init_db()
 void create_master()
 {
 	ofstream out;
-	
-	// TODO:向数据中的Branch数据表中添加新的对应
-
-	out << "master" << " " << NONE_FILE_HASH << endl;
-	out.close();
 
 	out.open(CURRENT_BRANCH);
 	out << "master" << endl;
 	out.close();
+	Branch master;
+	
+	// 向数据中的Branch数据表中添加新的对应
 
-	_mkdir(".git/ref/master");
+	_mkdir(GIT_REF);
+	out.open(GIT_REF + string("master"));
+	out << NONE_FILE_HASH;
+	out.close();
 
 	// Write Log 
 
@@ -117,6 +117,6 @@ void initial_all()
 void initial_all(const std::string& path)
 {
 	string cmd = "cd " + path;
-	system("cmd");
+	system(cmd.c_str());
 	initial_all();
 }

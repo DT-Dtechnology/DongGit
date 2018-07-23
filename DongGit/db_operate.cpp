@@ -1,45 +1,232 @@
 #include "stdafx.h"
 #include "sqlite3.h"
+#include "callback.h"
 #include "db_operate.h"
+#include "DefineSetting.h"
 
-void File_Match_Insert(const string& name, const string& hash)
+void DB_OP::Print_All_Branch()
 {
-	// TODO:向FILE_MATCH表中插入数据
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
 
+	rc = sqlite3_open(INFO_DB, &db);
+	if (! rc)
+	{
+		string sql = "SELECT * FROM BRANCH_MATCH";
+		cout << "Branch Table:" << endl;
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		sqlite3_close(db);
+		cout << endl;
+		return;
+	}
+	throw Error("###ERROR_OPEN_DATABASE###");
 }
 
-void File_Match_Update(const string& name, const string& hash, const string& pre_hash)
+void DB_OP::Print_All_File()
 {
-	// TODO:向FILE_BRANCH表中更新数据
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (!rc)
+	{
+		string sql = "SELECT * FROM FILE_MATCH";
+		cout << "File Table:" << endl;
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		sqlite3_close(db);
+		cout << endl;
+		return;
+	}
+	throw Error("###ERROR_OPEN_DATABASE###");
 }
 
-void Branch_Match_Insert(const string& name, const string& hash)
+void DB_OP::File_Match_Insert(const FileNode& file)
 {
-	// TODO:向BRANCH_MATCH表中插入数据
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (! rc)
+	{
+		string sql = "INSERT INTO FILE_MATCH VALUES ('" + file.file_name_+ "','" + file.hash_value_ + "','" + file.pre_file_ + "')";
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		else
+		{
+			fprintf(stdout, "Insert Successfully");
+		}
+		sqlite3_close(db);
+		return;
+	}
+	else
+	{
+		throw Error("###ERROR_OPEN_DATABASE###");
+	}
 }
 
-void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id)
+
+
+void DB_OP::Branch_Match_Insert(const Branch& branch)
 {
-	// TODO:向BRANCH_MATCH表中更新数据
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (! rc)
+	{
+		string sql = "INSERT INTO BRANCH_MATCH VALUES ('" + branch.branch_name_ + "','" +branch.hash_value_+ "','" + branch.pre_branch_  + "',NULL)";
+		rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		else
+		{
+			fprintf(stdout, "Insert Successfully");
+		}
+		sqlite3_close(db);
+		return;
+	}
+	else
+	{
+		throw Error("###ERROR_OPEN_DATABASE###");
+	}
 }
 
-string Branch_Search_Name(const string& hash)
+
+
+
+string DB_OP::get_File_Hash(const string& name)
 {
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+	char *hash = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (! rc)
+	{
+		string sql = "SELECT HASH FROM FILE_MATCH WHERE NAME='"+name+"'";
+		rc = sqlite3_exec(db, sql.c_str(), callback, hash, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+
+		else
+		{
+			if (hash == nullptr)
+			{
+				fprintf(stdout, "No such File.\n");
+				return NONE_FILE_HASH;
+			}
+			else fprintf(stdout, "Find Successfully");
+		}
+		sqlite3_close(db);
+	}
+	else
+	{
+		throw Error("###ERROR_OPEN_DATABASE###");
+	}
+	
+	return std::to_string(*hash);
 }
 
-string Branch_Search_Hash(const string& name)
+
+
+string DB_OP::get_File_Pre_Hash(const string& hash)
 {
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+	char *prehash = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (! rc)
+	{
+		string sql = "SELECT PRE_HASH FROM FILE_MATCH WHERE HASH='" + hash + "'";
+		rc = sqlite3_exec(db, sql.c_str(), callback, prehash, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+
+		else
+		{
+			if (prehash == nullptr)
+			{
+				fprintf(stdout, "No such File.\n");
+				return NONE_FILE_HASH;
+			}
+			else fprintf(stdout, "Find Successfully");
+		}
+		sqlite3_close(db);
+	}
+	else
+	{
+		fprintf(stdout, "###ERROR_NO_SUCH_FILE###");
+	}
+	return std::to_string(*prehash);
 }
 
-string File_Search_Name(const string& hash)
+string DB_OP::get_Branch_Hash(const string& name)
 {
+	sqlite3* db;
+	int rc;
+	char *zErrMsg = nullptr;
+	char *hash = nullptr;
+
+	rc = sqlite3_open(INFO_DB, &db);
+	if (!rc)
+	{
+		string sql = "SELECT HASH FROM BRANCH_MATCH WHERE NAME='" + name + "'";
+		rc = sqlite3_exec(db, sql.c_str(), callback, hash, &zErrMsg);
+		if (rc != SQLITE_OK)
+		{
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+
+		else
+		{
+			if (hash == nullptr)
+			{
+				fprintf(stdout, "No such File.\n");
+				return NONE_FILE_HASH;
+			}
+			else fprintf(stdout, "Find Successfully");
+		}
+		sqlite3_close(db);
+	}
+	else
+	{
+		throw Error("###ERROR_OPEN_DATABASE###");
+	}
+
+	return std::to_string(*hash);
 }
 
-string File_Search_Hash(const string& name)
-{
-}
 
-string File_Match_Pre(const string& hash)
-{
-	// TODO:更新前继节点
-}
+//---------------------------------------------------------------------
+

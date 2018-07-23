@@ -2,6 +2,7 @@
 #include "Branch.h"
 #include "db_operate.h"
 #include <algorithm>
+#include "file_operate.h"
 
 #define BRANCH_TEMP "Branch_Temp"
 
@@ -17,7 +18,12 @@ void Branch::write()
 
 	out.open(GIT_OBJECT_HEAD + hash_value_);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
-		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
+		out << (*it).file_name_ << ' ' << (*it).hash_value_ << "\n";
+	out.close();
+
+	// 更新ref中信息
+	out.open(GIT_REF + branch_name_);
+	out << hash_value_;
 	out.close();
 }
 
@@ -28,7 +34,7 @@ void Branch::get_hash()
 	ofstream out;
 	out.open(BRANCH_TEMP);
 	for (auto it = node_vector_.begin(); it != node_vector_.end(); ++it)
-		out << (*it).hash_value_ << ' ' << (*it).hash_value_ << "\n";
+		out << (*it).file_name_ << ' ' << (*it).hash_value_ << "\n";
 	out.close();
 
 	md5wrapper md5;
@@ -63,6 +69,14 @@ Branch::Branch(const string& name):branch_name_(name)
 	get_hash();
 }
 
+Branch::Branch()
+{
+	// 从当前工作区中获取一个Branch
+	branch_name_ = get_current_branch();
+
+	// TODO:通过读取文件建立Branch，注意节点排序
+}
+
 
 void Branch::update()
 {
@@ -84,7 +98,24 @@ void Branch::insert()
 	// TODO:向数据库中添加信息
 }
 
-inline NodeVector& Branch::getNodeVector()
+
+void Branch::set_start(const string& new_name)
+{
+	branch_name_ = new_name;
+	pre_branch_ = NONE_FILE_HASH;
+}
+
+string Branch::getPre() const
+{
+	return pre_branch_;
+}
+
+string Branch::getHash() const
+{
+	return hash_value_;
+}
+
+NodeVector& Branch::getNodeVector()
 {
 	return node_vector_;
 }
@@ -93,7 +124,35 @@ void Branch::reset_branch(const string& name)
 {
 	branch_name_ = name;
 	pre_branch_ = NONE_FILE_HASH;
-	his_id_ = 0;
+}
+
+auto find_node(NodeVector& node_vector, const string& name)
+{
+	for(auto it = node_vector.begin() ; it!=node_vector.end() ; ++it)
+	{
+		if ((*it).getName() == name)
+			return it;
+	}
+	return node_vector.end();
+}
+
+void Branch::update_file(const string& file_name, const string& new_hash)
+{
+	auto it = find_node(node_vector_, file_name);
+	if (it == node_vector_.end())
+	{
+		node_vector_.push_back(FileNode(file_name, new_hash));
+		return;
+	}
+	it->hash_value_ = new_hash;
+}
+
+string Branch::get_file_hash(const string& file_name)
+{
+	auto it = find_node(node_vector_, file_name);
+	if (it == node_vector_.end())
+		return NONE_FILE_HASH;
+	return it->getHash();
 }
 
 

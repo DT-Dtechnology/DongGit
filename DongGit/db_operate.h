@@ -8,20 +8,24 @@ using std::string;
 // BRANCH_MATCH: Hash和对应的最新分支名Branch
 // 暂时没有考虑远程数据库的问题
 
-void File_Match_Insert(const string& name, const string& hash);
 
-void File_Match_Update(const string& name, const string& hash, const string& pre_hash);
+class DB_OP //数据库操作类
+{
+public:
+	//test func
+	static void Print_All_Branch();
+	static void Print_All_File();
 
-void Branch_Match_Insert(const string& name, const string& hash);
+	//---------------------------------------------------
+	static void File_Match_Insert(const FileNode& file);
+	static void Branch_Match_Insert(const Branch& branch);
 
-void Branch_Match_Update(const string& name, const string& hash, const string& pre_hash, int his_id);
+	static string get_File_Hash(const string& name);
+	static string get_File_Pre_Hash(const string& hash);
 
-string Branch_Search_Name(const string& hash);
+	static string get_Branch_Hash(const string& name);
 
-string Branch_Search_Hash(const string& name);
+	//---------------------------------------------------
 
-string File_Search_Name(const string& hash);
 
-string File_Search_Hash(const string& name);
-
-string File_Match_Pre(const string& hash);
+};

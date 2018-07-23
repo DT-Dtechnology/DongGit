@@ -102,15 +102,6 @@
     <ClInclude Include="LogControl.h">
       <Filter>log</Filter>
     </ClInclude>
-    <ClInclude Include="FileFinder.h">
-      <Filter>file</Filter>
-    </ClInclude>
-    <ClInclude Include="FileWriter.h">
-      <Filter>file</Filter>
-    </ClInclude>
-    <ClInclude Include="FileReader.h">
-      <Filter>file</Filter>
-    </ClInclude>
     <ClInclude Include="BranchFactory.h">
       <Filter>structure</Filter>
     </ClInclude>
@@ -156,7 +147,7 @@
     <ClInclude Include="CommitAddCommand.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="get_file_name.h">
+    <ClInclude Include="file_operate.h">
       <Filter>file</Filter>
     </ClInclude>
   </ItemGroup>
@@ -216,6 +207,15 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="BranchCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="file_operate.cpp">
+      <Filter>file</Filter>
+    </ClCompile>
+    <ClCompile Include="MergeCommand.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="DiffCommand.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
