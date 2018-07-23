@@ -51,7 +51,6 @@ void commit_add_command()
 
 void commit_add_command_test()
 {
-	commit_add_command();
 	vector<string> file_name;
 	char *buf = new char[1000];
 	int i = 1000;
