@@ -191,7 +191,7 @@ string DB_OP::get_File_Pre_Hash(const string& hash)
 	{
 		fprintf(stdout, "###ERROR_OPEN_DATABASE###");
 	}
-	return std::to_string(*pResult[1]);
+	return std::string(pResult[1]);
 }
 
 string DB_OP::get_Branch_Hash(const string& name)
@@ -236,7 +236,7 @@ string DB_OP::get_Branch_Hash(const string& name)
 		throw Error("###ERROR_OPEN_DATABASE###");
 	}
 
-	return std::to_string(*pResult[1]);
+	return std::string(pResult[1]);
 }
 
 

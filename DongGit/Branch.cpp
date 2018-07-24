@@ -53,7 +53,6 @@ Branch::Branch(const string& name):branch_name_(name)
 {
 	// 通过数据库获取Hash值对应的数据项
 	hash_value_ = DB_OP::get_Branch_Hash(branch_name_);
-	cout << endl << "Branch get" << hash_value_ << endl;
 
 	// 获取NodeVector
 	string file_name;

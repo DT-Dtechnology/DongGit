@@ -19,9 +19,6 @@ string get_branch_file_hash(const string& branch, const string& file)
 {
 	Branch branch_data(branch);
 
-	cout << endl << "Branch hash" << branch_data.getHash() << endl;
-	cout << "File Hash" << branch_data.get_file_hash(file) << endl;
-
 	return branch_data.get_file_hash(file);
 }
 
