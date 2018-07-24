@@ -51,22 +51,23 @@ void Branch::sort_file()
 
 Branch::Branch(const string& name):branch_name_(name)
 {
-	// TODO:通过数据库获取Hash值对应的数据项，即<分支>Hash和pre和his_id
+	// 通过数据库获取Hash值对应的数据项
+	hash_value_ = DB_OP::get_Branch_Hash(branch_name_);
+
+	cout << hash_value_;
 
 	// 获取NodeVector
 	string file_name;
 	string file_hash;
 
 	ifstream in;
-	in.open(GIT_OBJECT_HEAD + name);
+	in.open(GIT_OBJECT_HEAD + hash_value_);
 	while(in)
 	{
 		in >> file_name >> file_hash;
 		const FileNode file(file_name, file_hash);
 		node_vector_.push_back(file);
 	}
-
-	get_hash();
 }
 
 Branch::Branch()
@@ -74,6 +75,7 @@ Branch::Branch()
 	// 从当前工作区中获取一个Branch
 	branch_name_ = get_current_branch();
 
+	// TODO:Scott
 	// TODO:通过读取文件建立Branch，注意节点排序
 }
 
@@ -82,6 +84,7 @@ void Branch::update()
 {
 	get_hash();
 
+	// TODO:Arthur
 	// TODO:更新数据库
 }
 
@@ -95,6 +98,7 @@ void Branch::insert()
 	// 记入信息数据库
 	get_hash();
 
+	// TODO:Arthur
 	// TODO:向数据库中添加信息
 }
 
