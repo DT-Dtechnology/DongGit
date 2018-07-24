@@ -34,7 +34,6 @@ void CommandSwitcher(int argc, const char* argv[])
 			cout << "commit-add" << endl;
 			if (argc == 2)
 			{
-				commit_add_command_test();
 				commit_add_command();
 			}
 			else

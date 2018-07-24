@@ -58,8 +58,7 @@ void commit_add_command_test()
 	GetCurrentDirectoryA(1000, buf);
 	string path = buf;
 	get_file_name(path, file_name);
-	for (auto i = file_name.begin(); i != file_name.end(); ++i)
-		(*i) = (*i).substr(path.length());
+	
 	for (auto i = file_name.begin(); i != file_name.end(); ++i)
 		cout << (*i) << endl;
 }
