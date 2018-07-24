@@ -10,7 +10,7 @@ void Branch::write()
 {
 	// 仅写入文件，不更新
 	get_hash();
-
+	
 	ofstream out;
 
 	if (_access((GIT_OBJECT_HEAD + hash_value_).c_str(), 0) != -1)
@@ -53,8 +53,7 @@ Branch::Branch(const string& name):branch_name_(name)
 {
 	// 通过数据库获取Hash值对应的数据项
 	hash_value_ = DB_OP::get_Branch_Hash(branch_name_);
-
-	cout << hash_value_;
+	cout << endl << "Branch get" << hash_value_ << endl;
 
 	// 获取NodeVector
 	string file_name;
